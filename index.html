@@ -672,7 +672,13 @@ function renderCards(){
   const tf = document.getElementById('ft').value;
   const vf = document.getElementById('fv').value;
   let list = partners.filter(p=>{
-    if(curArea && p.area !== curArea && p.area !== 'All') return false;
+    if(p.area === 'All') {
+      // 'All' area partners: show when no area filter, or always show once
+      if(lf && p.level !== lf) return false;
+      if(tf && !p.types.includes(tf)) return false;
+      return true;
+    }
+    if(curArea && p.area !== curArea) return false;
     if(lf && p.level !== lf) return false;
     if(tf && !p.types.includes(tf)) return false;
     if(vf && p.venue !== vf) return false;
