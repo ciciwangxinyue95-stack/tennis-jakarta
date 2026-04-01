@@ -380,6 +380,7 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
         Contact Admin
       </button>
       <button class="btn-join" onclick="switchTab('register')">+ Join</button>
+      <button class="btn-join" style="background:transparent;color:var(--green);border:1.5px solid var(--green-md)" onclick="openMyProfile()">👤 Me</button>
     </div>
   </div>
 </header>
@@ -582,12 +583,27 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 
 </main>
 
+<!-- MY PROFILE MODAL -->
+<div class="overlay" id="modal-me">
+  <div class="modal">
+    <div class="mtitle">👤 My Profile</div>
+    <p style="font-size:0.8rem;color:var(--muted);margin-bottom:16px">Enter your WA last 4 digits to show your edit button.</p>
+    <div class="fg"><label>Last 4 digits of your WhatsApp</label>
+      <input id="me-wa" type="tel" placeholder="Last 4 digits" maxlength="4">
+    </div>
+    <div class="mbtns">
+      <button class="btn-cancel" onclick="closeMeModal()">Cancel</button>
+      <button class="btn-sub" style="margin-top:0" onclick="confirmMe()">Confirm</button>
+    </div>
+  </div>
+</div>
+
 <!-- EDIT MODAL -->
 <div class="overlay" id="modal-edit">
   <div class="modal">
     <div class="mtitle">✏️ Edit Your Profile</div>
-    <div class="fg"><label>Enter last 4 digits of your WhatsApp *</label><input id="ev-wa" type="tel" placeholder="e.g. 6939" maxlength="4"></div>
-    <div id="edit-form-body" style="display:none">
+
+    <div id="edit-form-body">
       <div class="frow">
         <div class="fg"><label>Nickname *</label><input id="ev-name" type="text"></div>
         <div class="fg"><label>Gender</label>
@@ -647,10 +663,8 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
         <textarea id="ev-note"></textarea>
       </div>
     </div>
-    <div class="fg" id="verify-btn-wrap">
-      <button class="btn-sub" style="margin-top:4px" onclick="verifyEdit()">Verify & Edit</button>
-    </div>
-    <div class="mbtns" id="edit-save-btns" style="display:none">
+
+    <div class="mbtns" id="edit-save-btns">
       <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
       <button class="btn-sub" style="margin-top:0" onclick="saveEdit()">Save Changes</button>
     </div>
@@ -800,7 +814,7 @@ function renderCards(){
       <div class="card-btns">
         <button class="btn-book" onclick="openBook('${p.name}','${p.wa}','${p.venue}')">📅 Book</button>
         <button class="btn-wac" onclick="openWA('${p.wa}','${p.name}')">${WSVG} WA</button>
-        <button class="btn-book" style="flex:0;padding:9px 10px;background:var(--green-lt);color:var(--green);border:1.5px solid var(--green-md)" onclick="openEditModal(${p.id})">✏️</button>
+        ${currentUserWa && p.wa.slice(-4) === currentUserWa ? `<button class="btn-book" style="flex:0;padding:9px 10px;background:var(--green-lt);color:var(--green);border:1.5px solid var(--green-md)" onclick="openEditModal(${p.id})">✏️</button>` : ''}
       </div>
     </div>`).join('');
 }
@@ -899,13 +913,63 @@ async function submitForm(){
   setTimeout(()=>switchTab('browse'),1200);
 }
 let editId = null;
+let currentUserWa = null;
+
+function openMyProfile() {
+  document.getElementById('me-wa').value = '';
+  document.getElementById('modal-me').classList.add('open');
+}
+function closeMeModal() {
+  document.getElementById('modal-me').classList.remove('open');
+}
+function confirmMe() {
+  const input = document.getElementById('me-wa').value.trim();
+  if (input.length !== 4) { showToast('Please enter 4 digits'); return; }
+  const match = partners.find(p => p.wa.slice(-4) === input);
+  if (!match) { showToast('No profile found ❌'); return; }
+  currentUserWa = input;
+  closeMeModal();
+  renderCards();
+  showToast(`Welcome back, ${match.name}! ✅`);
+}
 
 function openEditModal(id) {
   editId = id;
-  document.getElementById('ev-wa').value = '';
-  document.getElementById('edit-form-body').style.display = 'none';
-  document.getElementById('verify-btn-wrap').style.display = 'block';
-  document.getElementById('edit-save-btns').style.display = 'none';
+  const p = partners.find(x => x.id === id);
+  if (!p) return;
+  // Pre-fill form
+  document.getElementById('ev-name').value = p.name;
+  document.getElementById('ev-gender').value = p.gender;
+  document.getElementById('ev-level').value = p.level;
+  document.getElementById('ev-note').value = p.note === '—' ? '' : p.note;
+  const areas = (p.area || '').split(', ');
+  document.querySelectorAll('#ev-area .cbl').forEach(l => {
+    const v = l.querySelector('input').value;
+    const on = areas.includes(v);
+    l.classList.toggle('on', on);
+    l.querySelector('input').checked = on;
+  });
+  const venues = (p.venue || '').split(', ');
+  document.querySelectorAll('#ev-venue .cbl').forEach(l => {
+    const v = l.querySelector('input').value;
+    const on = venues.includes(v);
+    l.classList.toggle('on', on);
+    l.querySelector('input').checked = on;
+  });
+  const types = p.types || [];
+  document.querySelectorAll('#ev-types .cbl').forEach(l => {
+    const v = l.querySelector('input').value;
+    const on = types.includes(v);
+    l.classList.toggle('on', on);
+    l.querySelector('input').checked = on;
+  });
+  const times = p.times || [];
+  document.querySelectorAll('#ev-times .cbl').forEach(l => {
+    const v = l.querySelector('input').value;
+    const on = times.includes(v);
+    l.classList.toggle('on', on);
+    l.querySelector('input').checked = on;
+  });
   document.getElementById('modal-edit').classList.add('open');
 }
 
@@ -914,18 +978,15 @@ function closeEditModal() {
   editId = null;
 }
 
-function verifyEdit() {
-  const input = document.getElementById('ev-wa').value.trim().replace(/\D/g,'');
-  const p = partners.find(x => x.id === editId);
-  if (!p) { showToast('Profile not found'); return; }
-  const last4 = p.wa.slice(-4);
-  if (last4 !== input) { showToast('Last 4 digits do not match ❌'); return; }
+function openEditModal(id) {
+  editId = id;
+  const p = partners.find(x => x.id === id);
+  if (!p) return;
   // Pre-fill form
   document.getElementById('ev-name').value = p.name;
   document.getElementById('ev-gender').value = p.gender;
   document.getElementById('ev-level').value = p.level;
   document.getElementById('ev-note').value = p.note === '—' ? '' : p.note;
-  // Pre-fill areas
   const areas = (p.area || '').split(', ');
   document.querySelectorAll('#ev-area .cbl').forEach(l => {
     const v = l.querySelector('input').value;
@@ -933,7 +994,6 @@ function verifyEdit() {
     l.classList.toggle('on', on);
     l.querySelector('input').checked = on;
   });
-  // Pre-fill venues
   const venues = (p.venue || '').split(', ');
   document.querySelectorAll('#ev-venue .cbl').forEach(l => {
     const v = l.querySelector('input').value;
@@ -941,7 +1001,6 @@ function verifyEdit() {
     l.classList.toggle('on', on);
     l.querySelector('input').checked = on;
   });
-  // Pre-fill types
   const types = p.types || [];
   document.querySelectorAll('#ev-types .cbl').forEach(l => {
     const v = l.querySelector('input').value;
@@ -949,7 +1008,6 @@ function verifyEdit() {
     l.classList.toggle('on', on);
     l.querySelector('input').checked = on;
   });
-  // Pre-fill times
   const times = p.times || [];
   document.querySelectorAll('#ev-times .cbl').forEach(l => {
     const v = l.querySelector('input').value;
@@ -957,9 +1015,7 @@ function verifyEdit() {
     l.classList.toggle('on', on);
     l.querySelector('input').checked = on;
   });
-  document.getElementById('edit-form-body').style.display = 'block';
-  document.getElementById('verify-btn-wrap').style.display = 'none';
-  document.getElementById('edit-save-btns').style.display = 'flex';
+  document.getElementById('modal-edit').classList.add('open');
 }
 
 async function saveEdit() {
@@ -995,6 +1051,7 @@ function showToast(msg){
 }
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
 document.getElementById('modal-edit').addEventListener('click',e=>{if(e.target===e.currentTarget)closeEditModal();});
+document.getElementById('modal-me').addEventListener('click',e=>{if(e.target===e.currentTarget)closeMeModal();});
 
 // Insert Cici's profile if table is empty, then load
 (async () => {
