@@ -309,6 +309,8 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
   border-radius: 22px; padding: 28px; width: 100%; max-width: 430px;
   box-shadow: 0 20px 60px rgba(0,0,0,0.12);
   animation: rise 0.22s ease;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 @keyframes rise { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 .mtitle { font-family: 'Lora', serif; font-size: 1.2rem; font-weight: 600; margin-bottom: 18px; }
@@ -384,6 +386,7 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
       </button>
       <button class="btn-join" onclick="switchTab('register')">+ Join</button>
       <button class="btn-join" style="background:transparent;color:var(--green);border:1.5px solid var(--green-md)" onclick="openMyProfile()">Me</button>
+
     </div>
   </div>
 </header>
@@ -589,14 +592,14 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 <!-- MY PROFILE MODAL -->
 <div class="overlay" id="modal-me">
   <div class="modal">
-    <div class="mtitle">👤 My Profile</div>
-    <p style="font-size:0.8rem;color:var(--muted);margin-bottom:16px">Enter your WA last 4 digits to show your edit button.</p>
-    <div class="fg"><label>Last 4 digits of your WhatsApp</label>
+    <div class="mtitle">Edit My Profile</div>
+    <p style="font-size:0.8rem;color:var(--muted);margin-bottom:16px">Enter the last 4 digits of your WhatsApp to edit your profile.</p>
+    <div class="fg"><label>Last 4 digits of WhatsApp *</label>
       <input id="me-wa" type="tel" placeholder="Last 4 digits" maxlength="4">
     </div>
     <div class="mbtns">
       <button class="btn-cancel" onclick="closeMeModal()">Cancel</button>
-      <button class="btn-sub" style="margin-top:0" onclick="confirmMe()">Confirm</button>
+      <button class="btn-sub" style="margin-top:0" onclick="confirmMe()">Continue</button>
     </div>
   </div>
 </div>
@@ -817,7 +820,7 @@ function renderCards(){
       <div class="card-btns">
         <button class="btn-book" onclick="openBook('${p.name}','${p.wa}','${p.venue}')">📅 Book</button>
         <button class="btn-wac" onclick="openWA('${p.wa}','${p.name}')">${WSVG} WA</button>
-        ${currentUserWa && p.wa.slice(-4) === currentUserWa ? `<button class="btn-book" style="flex:0;padding:9px 10px;background:var(--green-lt);color:var(--green);border:1.5px solid var(--green-md)" onclick="openEditModal(${p.id})">✏️</button>` : ''}
+        <button class="btn-book" style="flex:0;padding:9px 10px;background:var(--green-lt);color:var(--green);border:1.5px solid var(--green-md)" onclick="openEditModal(${p.id})">✏️</button>
       </div>
     </div>`).join('');
 }
@@ -919,6 +922,7 @@ let editId = null;
 let currentUserWa = null;
 
 function openMyProfile() {
+  editId = null;
   document.getElementById('me-wa').value = '';
   document.getElementById('modal-me').classList.add('open');
 }
@@ -928,19 +932,30 @@ function closeMeModal() {
 function confirmMe() {
   const input = document.getElementById('me-wa').value.trim();
   if (input.length !== 4) { showToast('Please enter 4 digits'); return; }
-  const match = partners.find(p => p.wa.slice(-4) === input);
-  if (!match) { showToast('No profile found ❌'); return; }
-  currentUserWa = input;
-  closeMeModal();
-  renderCards();
-  showToast(`Welcome back, ${match.name}! ✅`);
+  // If coming from edit button, verify against that specific profile
+  if (editId) {
+    const p = partners.find(x => x.id === editId);
+    if (!p || p.wa.slice(-4) !== input) { showToast('Last 4 digits do not match ❌'); return; }
+    closeMeModal();
+    prefillAndOpenEdit();
+  } else {
+    const match = partners.find(p => p.wa.slice(-4) === input);
+    if (!match) { showToast('No profile found ❌'); return; }
+    editId = match.id;
+    closeMeModal();
+    prefillAndOpenEdit();
+  }
 }
 
 function openEditModal(id) {
   editId = id;
-  const p = partners.find(x => x.id === id);
+  document.getElementById('me-wa').value = '';
+  document.getElementById('modal-me').classList.add('open');
+}
+
+function prefillAndOpenEdit() {
+  const p = partners.find(x => x.id === editId);
   if (!p) return;
-  // Pre-fill form
   document.getElementById('ev-name').value = p.name;
   document.getElementById('ev-gender').value = p.gender;
   document.getElementById('ev-level').value = p.level;
@@ -983,9 +998,13 @@ function closeEditModal() {
 
 function openEditModal(id) {
   editId = id;
-  const p = partners.find(x => x.id === id);
+  document.getElementById('me-wa').value = '';
+  document.getElementById('modal-me').classList.add('open');
+}
+
+function prefillAndOpenEdit() {
+  const p = partners.find(x => x.id === editId);
   if (!p) return;
-  // Pre-fill form
   document.getElementById('ev-name').value = p.name;
   document.getElementById('ev-gender').value = p.gender;
   document.getElementById('ev-level').value = p.level;
