@@ -116,6 +116,7 @@ header {
   color: var(--muted); cursor: pointer;
   border-bottom: 2px solid transparent; margin-bottom: -1.5px;
   transition: all 0.18s; font-family: 'Plus Jakarta Sans', sans-serif;
+  white-space: nowrap;
 }
 .tab.active { color: var(--green); border-bottom-color: var(--green); font-weight: 600; }
 .tab:hover:not(.active) { color: var(--mid); }
@@ -341,25 +342,27 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 @media (max-width: 640px) {
   .frow, .mrow { grid-template-columns: 1fr; }
   .fcard, .modal { padding: 18px; }
-  header { padding: 0 16px; }
-  main { padding: 18px 16px 60px; }
-  .hero { padding: 16px 16px 0; }
-  .tabs { padding: 0 16px; }
-  .tab { padding: 11px 14px; font-size: 0.8rem; }
-  .hd { height: 56px; }
-  .logo { font-size: 1.05rem; }
+  header { padding: 0 14px; }
+  main { padding: 16px 14px 60px; }
+  .hero { padding: 14px 14px 0; }
+  .tabs { padding: 0 14px; }
+  .tab { padding: 10px 12px; font-size: 0.78rem; }
+  .hd { height: 54px; }
+  .logo { font-size: 1rem; }
   .logo-sub { display: none; }
-  .hero-text h2 { font-size: 1rem; }
-  .hero-text p { font-size: 0.76rem; }
-  .hero-tag { font-size: 0.65rem; padding: 2px 8px; }
-  .btn-share { padding: 7px 12px; font-size: 0.75rem; }
-  .btn-wa-hd { padding: 7px 10px; font-size: 0.72rem; }
-  .btn-join { padding: 7px 12px; font-size: 0.75rem; }
-  .apill { padding: 6px 12px; font-size: 0.75rem; }
+  .btn-wa-hd { display: none; }
+  .hero-text h2 { font-size: 0.95rem; }
+  .hero-text p { font-size: 0.75rem; }
+  .hero-tag { font-size: 0.64rem; padding: 2px 8px; }
+  .btn-share { padding: 7px 12px; font-size: 0.74rem; }
+  .btn-join { padding: 7px 13px; font-size: 0.78rem; }
+  .apill { padding: 6px 12px; font-size: 0.74rem; }
   .area-row { gap: 6px; }
-  .filter-row select { font-size: 0.75rem; padding: 6px 10px; }
+  .filter-row select { font-size: 0.74rem; padding: 6px 10px; }
   .grid { grid-template-columns: 1fr; }
-  .card { padding: 18px; }
+  .card { padding: 16px; }
+  .hero-card { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .btn-share { align-self: flex-start; }
 }
 </style>
 </head>
@@ -380,7 +383,7 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
         Contact Admin
       </button>
       <button class="btn-join" onclick="switchTab('register')">+ Join</button>
-      <button class="btn-join" style="background:transparent;color:var(--green);border:1.5px solid var(--green-md)" onclick="openMyProfile()">👤 Me</button>
+      <button class="btn-join" style="background:transparent;color:var(--green);border:1.5px solid var(--green-md)" onclick="openMyProfile()">Me</button>
     </div>
   </div>
 </header>
@@ -405,9 +408,9 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 
 <div class="tabs-wrap">
   <div class="tabs">
-    <div class="tab active" id="tab-browse" onclick="switchTab('browse')">🔍 Find Partners</div>
-    <div class="tab" id="tab-register" onclick="switchTab('register')">📋 Register</div>
-    <div class="tab" id="tab-schedule" onclick="switchTab('schedule')">📅 My Sessions</div>
+    <div class="tab active" id="tab-browse" onclick="switchTab('browse')">Find Partners</div>
+    <div class="tab" id="tab-register" onclick="switchTab('register')">Register</div>
+    <div class="tab" id="tab-schedule" onclick="switchTab('schedule')">My Sessions</div>
   </div>
 </div>
 
