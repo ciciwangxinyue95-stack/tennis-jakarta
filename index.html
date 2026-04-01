@@ -491,23 +491,31 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
               <option value="3.5">3.5+ – Advanced</option>
             </select>
           </div>
-          <div class="fg"><label>Area *</label>
-            <select id="far">
-              <option>PIK</option>
-              <option>Pluit</option>
-              <option>Puri</option>
-              <option>Central Park</option>
-            </select>
+          <div class="fg"><label>Area * (multi-select)</label>
+            <div class="cbg" id="cgar">
+              <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="PIK"> PIK</label>
+              <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Pluit"> Pluit</label>
+              <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Puri"> Puri</label>
+              <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Central Park"> Central Park</label>
+            </div>
           </div>
         </div>
 
-        <div class="fg"><label>Preferred Venue *</label>
-          <select id="fvn">
-            <optgroup label="── PIK"><option>Urban Racquet Club</option></optgroup>
-            <optgroup label="── Pluit"><option>Olympus Prime Sports Center</option><option>Homeground Signature Pluit</option><option>Batavia Sports Club</option></optgroup>
-            <optgroup label="── Puri"><option>House of Tennis Kedoya</option><option>Neo Tennis Arena</option></optgroup>
-            <optgroup label="── Central Park"><option>The ACE Court Slipi</option><option>Vlocity Arena</option></optgroup>
-          </select>
+        <div class="fg"><label>Preferred Venues * (multi-select)</label>
+          <div class="cbg" id="cgvn">
+            <div style="width:100%;font-size:0.7rem;color:var(--muted);margin-bottom:4px;font-weight:600">PIK</div>
+            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Urban Racquet Club"> Urban Racquet Club</label>
+            <div style="width:100%;font-size:0.7rem;color:var(--muted);margin:6px 0 4px;font-weight:600">Pluit</div>
+            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Olympus Prime Sports Center"> Olympus Prime</label>
+            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Homeground Signature Pluit"> Homeground Pluit</label>
+            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Batavia Sports Club"> Batavia Sports</label>
+            <div style="width:100%;font-size:0.7rem;color:var(--muted);margin:6px 0 4px;font-weight:600">Puri</div>
+            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="House of Tennis Kedoya"> House of Tennis</label>
+            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Neo Tennis Arena"> Neo Tennis Arena</label>
+            <div style="width:100%;font-size:0.7rem;color:var(--muted);margin:6px 0 4px;font-weight:600">Central Park</div>
+            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="The ACE Court Slipi"> The ACE Court</label>
+            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Vlocity Arena"> Vlocity Arena</label>
+          </div>
         </div>
 
         <div class="fg"><label>Play Style * (multi-select)</label>
@@ -573,6 +581,81 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
   </div>
 
 </main>
+
+<!-- EDIT MODAL -->
+<div class="overlay" id="modal-edit">
+  <div class="modal">
+    <div class="mtitle">✏️ Edit Your Profile</div>
+    <div class="fg"><label>Enter last 4 digits of your WhatsApp *</label><input id="ev-wa" type="tel" placeholder="e.g. 6939" maxlength="4"></div>
+    <div id="edit-form-body" style="display:none">
+      <div class="frow">
+        <div class="fg"><label>Nickname *</label><input id="ev-name" type="text"></div>
+        <div class="fg"><label>Gender</label>
+          <select id="ev-gender"><option value="Female">Female</option><option value="Male">Male</option><option value="Any">Any</option></select>
+        </div>
+      </div>
+      <div class="fg"><label>NTRP Level *</label>
+        <select id="ev-level">
+          <option value="1.0">1.0 – Beginner</option>
+          <option value="1.5">1.5 – Novice</option>
+          <option value="2.0">2.0 – Beg-Int</option>
+          <option value="2.5">2.5 – Intermediate</option>
+          <option value="3.0">3.0 – Int-Adv</option>
+          <option value="3.5">3.5+ – Advanced</option>
+        </select>
+      </div>
+      <div class="fg"><label>Area * (multi-select)</label>
+        <div class="cbg" id="ev-area">
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="PIK"> PIK</label>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Pluit"> Pluit</label>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Puri"> Puri</label>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Central Park"> Central Park</label>
+        </div>
+      </div>
+      <div class="fg"><label>Preferred Venues * (multi-select)</label>
+        <div class="cbg" id="ev-venue">
+          <div style="width:100%;font-size:0.7rem;color:var(--muted);margin-bottom:4px;font-weight:600">PIK</div>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Urban Racquet Club"> Urban Racquet Club</label>
+          <div style="width:100%;font-size:0.7rem;color:var(--muted);margin:6px 0 4px;font-weight:600">Pluit</div>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Olympus Prime Sports Center"> Olympus Prime</label>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Homeground Signature Pluit"> Homeground Pluit</label>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Batavia Sports Club"> Batavia Sports</label>
+          <div style="width:100%;font-size:0.7rem;color:var(--muted);margin:6px 0 4px;font-weight:600">Puri</div>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="House of Tennis Kedoya"> House of Tennis</label>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Neo Tennis Arena"> Neo Tennis Arena</label>
+          <div style="width:100%;font-size:0.7rem;color:var(--muted);margin:6px 0 4px;font-weight:600">Central Park</div>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="The ACE Court Slipi"> The ACE Court</label>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Vlocity Arena"> Vlocity Arena</label>
+        </div>
+      </div>
+      <div class="fg"><label>Play Style *</label>
+        <div class="cbg" id="ev-types">
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Singles"> Singles</label>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Rally"> Rally / Hit</label>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Doubles"> Doubles</label>
+        </div>
+      </div>
+      <div class="fg"><label>Available Times</label>
+        <div class="cbg" id="ev-times">
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Weekday AM"> Weekday AM</label>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Weekday PM"> Weekday PM</label>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Weekend"> Weekend</label>
+          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Holiday"> Holiday</label>
+        </div>
+      </div>
+      <div class="fg"><label>About You</label>
+        <textarea id="ev-note"></textarea>
+      </div>
+    </div>
+    <div class="fg" id="verify-btn-wrap">
+      <button class="btn-sub" style="margin-top:4px" onclick="verifyEdit()">Verify & Edit</button>
+    </div>
+    <div class="mbtns" id="edit-save-btns" style="display:none">
+      <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+      <button class="btn-sub" style="margin-top:0" onclick="saveEdit()">Save Changes</button>
+    </div>
+  </div>
+</div>
 
 <!-- BOOK MODAL -->
 <div class="overlay" id="modal">
@@ -715,8 +798,9 @@ function renderCards(){
       <div class="venue-line">🏟 ${p.venue}</div>
       <div class="card-note">${p.note}</div>
       <div class="card-btns">
-        <button class="btn-book" onclick="openBook('${p.name}','${p.wa}','${p.venue}')">📅 Book Session</button>
-        <button class="btn-wac" onclick="openWA('${p.wa}','${p.name}')">${WSVG} WhatsApp</button>
+        <button class="btn-book" onclick="openBook('${p.name}','${p.wa}','${p.venue}')">📅 Book</button>
+        <button class="btn-wac" onclick="openWA('${p.wa}','${p.name}')">${WSVG} WA</button>
+        <button class="btn-book" style="flex:0;padding:9px 10px;background:var(--green-lt);color:var(--green);border:1.5px solid var(--green-md)" onclick="openEditModal(${p.id})">✏️</button>
       </div>
     </div>`).join('');
 }
@@ -790,12 +874,16 @@ async function submitForm(){
   const types=[...document.querySelectorAll('#cgt .on input')].map(i=>i.value);
   const times=[...document.querySelectorAll('#cgtm .on input')].map(i=>i.value);
   if(!types.length){showToast('Please select at least one play style');return;}
+  const areas=[...document.querySelectorAll('#cgar .on input')].map(i=>i.value);
+  const venues=[...document.querySelectorAll('#cgvn .on input')].map(i=>i.value);
+  if(!areas.length){showToast('Please select at least one area 📍');return;}
+  if(!venues.length){showToast('Please select at least one venue');return;}
   const record = {
     name,
     gender:document.getElementById('fg2').value,
     level:document.getElementById('flv').value,
-    area:document.getElementById('far').value,
-    venue:document.getElementById('fvn').value,
+    area: areas.join(', '),
+    venue: venues.join(', '),
     types, times,
     note:document.getElementById('fnt').value.trim()||'—',
     wa
@@ -806,15 +894,107 @@ async function submitForm(){
   document.getElementById('fn').value='';
   document.getElementById('fw').value='';
   document.getElementById('fnt').value='';
+  document.querySelectorAll('#cgar .cbl, #cgvn .cbl').forEach(l=>{ l.classList.remove('on'); l.querySelector('input').checked=false; });
   await loadPartners();
   setTimeout(()=>switchTab('browse'),1200);
 }
+let editId = null;
+
+function openEditModal(id) {
+  editId = id;
+  document.getElementById('ev-wa').value = '';
+  document.getElementById('edit-form-body').style.display = 'none';
+  document.getElementById('verify-btn-wrap').style.display = 'block';
+  document.getElementById('edit-save-btns').style.display = 'none';
+  document.getElementById('modal-edit').classList.add('open');
+}
+
+function closeEditModal() {
+  document.getElementById('modal-edit').classList.remove('open');
+  editId = null;
+}
+
+function verifyEdit() {
+  const input = document.getElementById('ev-wa').value.trim().replace(/\D/g,'');
+  const p = partners.find(x => x.id === editId);
+  if (!p) { showToast('Profile not found'); return; }
+  const last4 = p.wa.slice(-4);
+  if (last4 !== input) { showToast('Last 4 digits do not match ❌'); return; }
+  // Pre-fill form
+  document.getElementById('ev-name').value = p.name;
+  document.getElementById('ev-gender').value = p.gender;
+  document.getElementById('ev-level').value = p.level;
+  document.getElementById('ev-note').value = p.note === '—' ? '' : p.note;
+  // Pre-fill areas
+  const areas = (p.area || '').split(', ');
+  document.querySelectorAll('#ev-area .cbl').forEach(l => {
+    const v = l.querySelector('input').value;
+    const on = areas.includes(v);
+    l.classList.toggle('on', on);
+    l.querySelector('input').checked = on;
+  });
+  // Pre-fill venues
+  const venues = (p.venue || '').split(', ');
+  document.querySelectorAll('#ev-venue .cbl').forEach(l => {
+    const v = l.querySelector('input').value;
+    const on = venues.includes(v);
+    l.classList.toggle('on', on);
+    l.querySelector('input').checked = on;
+  });
+  // Pre-fill types
+  const types = p.types || [];
+  document.querySelectorAll('#ev-types .cbl').forEach(l => {
+    const v = l.querySelector('input').value;
+    const on = types.includes(v);
+    l.classList.toggle('on', on);
+    l.querySelector('input').checked = on;
+  });
+  // Pre-fill times
+  const times = p.times || [];
+  document.querySelectorAll('#ev-times .cbl').forEach(l => {
+    const v = l.querySelector('input').value;
+    const on = times.includes(v);
+    l.classList.toggle('on', on);
+    l.querySelector('input').checked = on;
+  });
+  document.getElementById('edit-form-body').style.display = 'block';
+  document.getElementById('verify-btn-wrap').style.display = 'none';
+  document.getElementById('edit-save-btns').style.display = 'flex';
+}
+
+async function saveEdit() {
+  const name = document.getElementById('ev-name').value.trim();
+  if (!name) { showToast('Please enter your nickname'); return; }
+  const areas = [...document.querySelectorAll('#ev-area .on input')].map(i=>i.value);
+  const venues = [...document.querySelectorAll('#ev-venue .on input')].map(i=>i.value);
+  const types = [...document.querySelectorAll('#ev-types .on input')].map(i=>i.value);
+  const times = [...document.querySelectorAll('#ev-times .on input')].map(i=>i.value);
+  if (!areas.length) { showToast('Please select at least one area'); return; }
+  if (!venues.length) { showToast('Please select at least one venue'); return; }
+  if (!types.length) { showToast('Please select a play style'); return; }
+  const updates = {
+    name,
+    gender: document.getElementById('ev-gender').value,
+    level: document.getElementById('ev-level').value,
+    area: areas.join(', '),
+    venue: venues.join(', '),
+    types, times,
+    note: document.getElementById('ev-note').value.trim() || '—',
+  };
+  const { error } = await supa.from('partners').update(updates).eq('id', editId);
+  if (error) { showToast('Error saving changes 😢'); console.error(error); return; }
+  showToast('✅ Profile updated!');
+  closeEditModal();
+  await loadPartners();
+}
+
 function showToast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg; t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),2800);
 }
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+document.getElementById('modal-edit').addEventListener('click',e=>{if(e.target===e.currentTarget)closeEditModal();});
 
 // Insert Cici's profile if table is empty, then load
 (async () => {
