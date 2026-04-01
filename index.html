@@ -86,15 +86,9 @@ header {
 .hero-card {
   background: linear-gradient(135deg, #edf7ef 0%, #f5fbf6 60%, #fef9f6 100%);
   border: 1.5px solid var(--green-md);
-  border-radius: 20px; padding: 22px 26px;
-  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
-  margin-bottom: 22px;
-}
-.hero-icon {
-  width: 50px; height: 50px; border-radius: 14px;
-  background: var(--white); border: 1.5px solid var(--green-md);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.4rem; flex-shrink: 0; box-shadow: var(--shadow);
+  border-radius: 20px; padding: 18px 20px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  margin-bottom: 20px;
 }
 .hero-text { flex: 1; }
 .hero-text h2 { font-family: 'Lora', serif; font-size: 1.1rem; font-weight: 600; color: var(--green); margin-bottom: 4px; }
@@ -346,12 +340,26 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 
 @media (max-width: 640px) {
   .frow, .mrow { grid-template-columns: 1fr; }
-  .fcard, .modal { padding: 20px; }
-  header, main { padding-left: 16px; padding-right: 16px; }
-  .hero { padding-left: 16px; padding-right: 16px; }
+  .fcard, .modal { padding: 18px; }
+  header { padding: 0 16px; }
+  main { padding: 18px 16px 60px; }
+  .hero { padding: 16px 16px 0; }
   .tabs { padding: 0 16px; }
-  .hd { height: 58px; }
-  .logo { font-size: 1.15rem; }
+  .tab { padding: 11px 14px; font-size: 0.8rem; }
+  .hd { height: 56px; }
+  .logo { font-size: 1.05rem; }
+  .logo-sub { display: none; }
+  .hero-text h2 { font-size: 1rem; }
+  .hero-text p { font-size: 0.76rem; }
+  .hero-tag { font-size: 0.65rem; padding: 2px 8px; }
+  .btn-share { padding: 7px 12px; font-size: 0.75rem; }
+  .btn-wa-hd { padding: 7px 10px; font-size: 0.72rem; }
+  .btn-join { padding: 7px 12px; font-size: 0.75rem; }
+  .apill { padding: 6px 12px; font-size: 0.75rem; }
+  .area-row { gap: 6px; }
+  .filter-row select { font-size: 0.75rem; padding: 6px 10px; }
+  .grid { grid-template-columns: 1fr; }
+  .card { padding: 18px; }
 }
 </style>
 </head>
@@ -379,19 +387,17 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 <div class="hero-wrap">
   <div class="hero">
     <div class="hero-card">
-      <div class="hero-icon">🎾</div>
       <div class="hero-text">
         <h2>Jakarta Tennis Partner Network</h2>
-        <p>Find your tennis partner across Jakarta. Browse by area, connect via WhatsApp, and manage bookings — all in one place.</p>
+        <p>Find your tennis partner in Jakarta — connect via WhatsApp instantly.</p>
         <div class="hero-tags">
           <span class="hero-tag">NTRP 1.0–3.5+</span>
           <span class="hero-tag">Singles &amp; Rally</span>
           <span class="hero-tag">Female-friendly</span>
-          <span class="hero-tag">WhatsApp direct</span>
           <span class="hero-tag">Free to join</span>
         </div>
       </div>
-      <button class="btn-share" onclick="shareApp()">🔗 Share Page</button>
+      <button class="btn-share" onclick="shareApp()">🔗 Share</button>
     </div>
   </div>
 </div>
