@@ -7,6 +7,7 @@
 <meta name="description" content="Find tennis partners in Jakarta – PIK, Pluit, Puri, Central Park. Connect via WhatsApp instantly.">
 <meta property="og:title" content="TennisMatch Jakarta 🎾">
 <meta property="og:description" content="Find your tennis partner in Jakarta. Singles, Rally, Doubles – connect via WhatsApp.">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -416,10 +417,10 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
     </div>
     <div class="filter-row">
       <select onchange="renderCards()" id="fl">
-        <option value="">All Levels</option>
+        <option value="" selected>All Levels</option>
         <option value="1.0">1.0 Beginner</option>
         <option value="1.5">1.5 Novice</option>
-        <option value="2.0" selected>2.0 Beg-Int</option>
+        <option value="2.0">2.0 Beg-Int</option>
         <option value="2.5">2.5 Intermediate</option>
         <option value="3.0">3.0 Int-Adv</option>
         <option value="3.5">3.5+ Advanced</option>
@@ -599,6 +600,11 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 <script>
 const OWNER = '6282258656939';
 const PALETTE = ['#3a7d44','#7aab84','#d4714a','#4a6da8','#a07840','#6a8d50'];
+
+// Supabase
+const SUPA_URL = 'https://rhxtldwdlrsffwnzwxpr.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJoeHRsZHdkbHJzZmZ3bnp3eHByIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUwNTU2ODcsImV4cCI6MjA5MDYzMTY4N30.cS-MiUrZoTare_3vs2csg9xXXgp5de7j2kl1AtDzAcg';
+const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
 const WSVG = `<svg class="wsvg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
 
 const V2A = {
@@ -614,14 +620,19 @@ const V2A = {
 
 function clr(n){ let h=0; for(let c of n) h=h*31+c.charCodeAt(0); return PALETTE[Math.abs(h)%PALETTE.length]; }
 
-let partners = [
-  {id:1,name:'Cici',gender:'Female',level:'2.0',area:'PIK',venue:'Urban Racquet Club',types:['Singles','Rally'],times:['Weekday PM','Weekend'],note:'Happy to play singles or rally at any of the Jakarta courts. Feel free to reach out! 🎾',wa:'6282258656939'},
-  {id:2,name:'Cici',gender:'Female',level:'2.0',area:'Pluit',venue:'Homeground Signature Pluit',types:['Singles','Rally'],times:['Weekday PM','Weekend'],note:'Happy to play singles or rally at any of the Jakarta courts. Feel free to reach out! 🎾',wa:'6282258656939'},
-  {id:3,name:'Cici',gender:'Female',level:'2.0',area:'Puri',venue:'House of Tennis Kedoya',types:['Singles','Rally'],times:['Weekday PM','Weekend'],note:'Happy to play singles or rally at any of the Jakarta courts. Feel free to reach out! 🎾',wa:'6282258656939'},
-  {id:4,name:'Cici',gender:'Female',level:'2.0',area:'Central Park',venue:'The ACE Court Slipi',types:['Singles','Rally'],times:['Weekday PM','Weekend'],note:'Happy to play singles or rally at any of the Jakarta courts. Feel free to reach out! 🎾',wa:'6282258656939'},
-];
-
+let partners = [];
 let appts = [];
+
+async function loadPartners() {
+  const { data, error } = await supa.from('partners').select('*').order('created_at', { ascending: false });
+  if (error) { console.error(error); return; }
+  partners = data.map(p => ({
+    ...p,
+    types: p.types || [],
+    times: p.times || [],
+  }));
+  renderCards();
+}
 
 let curArea='', bkPartner='', bkWa='';
 
@@ -661,7 +672,7 @@ function renderCards(){
   const tf = document.getElementById('ft').value;
   const vf = document.getElementById('fv').value;
   let list = partners.filter(p=>{
-    if(curArea && p.area !== curArea) return false;
+    if(curArea && p.area !== curArea && p.area !== 'All') return false;
     if(lf && p.level !== lf) return false;
     if(tf && !p.types.includes(tf)) return false;
     if(vf && p.venue !== vf) return false;
@@ -682,7 +693,7 @@ function renderCards(){
       <div class="badges">
         <span class="badge b-lv">NTRP ${p.level}</span>
         ${p.types.map(t=>`<span class="badge b-tp">${t}</span>`).join('')}
-        <span class="badge b-ar">📍 ${p.area}</span>
+        <span class="badge b-ar">📍 ${p.area === 'All' ? 'All Areas' : p.area}</span>
       </div>
       <div class="venue-line">🏟 ${p.venue}</div>
       <div class="card-note">${p.note}</div>
@@ -753,7 +764,7 @@ function updS(id,s){
   const a=appts.find(x=>x.id===id);
   if(a){a.status=s;renderSched();showToast(s==='confirmed'?'✅ Session confirmed!':'❌ Session cancelled');}
 }
-function submitForm(){
+async function submitForm(){
   const name=document.getElementById('fn').value.trim();
   const wa=document.getElementById('fw').value.trim().replace(/\D/g,'');
   if(!name){showToast('Please enter your nickname 📝');return;}
@@ -761,8 +772,8 @@ function submitForm(){
   const types=[...document.querySelectorAll('#cgt .on input')].map(i=>i.value);
   const times=[...document.querySelectorAll('#cgtm .on input')].map(i=>i.value);
   if(!types.length){showToast('Please select at least one play style');return;}
-  partners.unshift({
-    id:Date.now(), name,
+  const record = {
+    name,
     gender:document.getElementById('fg2').value,
     level:document.getElementById('flv').value,
     area:document.getElementById('far').value,
@@ -770,12 +781,15 @@ function submitForm(){
     types, times,
     note:document.getElementById('fnt').value.trim()||'—',
     wa
-  });
+  };
+  const { error } = await supa.from('partners').insert([record]);
+  if(error){ showToast('Error saving profile 😢'); console.error(error); return; }
   showToast(`🎾 Profile live! Welcome, ${name}!`);
   document.getElementById('fn').value='';
   document.getElementById('fw').value='';
   document.getElementById('fnt').value='';
-  setTimeout(()=>{switchTab('browse');renderCards();},1200);
+  await loadPartners();
+  setTimeout(()=>switchTab('browse'),1200);
 }
 function showToast(msg){
   const t=document.getElementById('toast');
@@ -783,7 +797,22 @@ function showToast(msg){
   setTimeout(()=>t.classList.remove('show'),2800);
 }
 document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
-renderCards();
+
+// Insert Cici's profile if table is empty, then load
+(async () => {
+  const { data } = await supa.from('partners').select('id').limit(1);
+  if (!data || data.length === 0) {
+    await supa.from('partners').insert([{
+      name:'Cici', gender:'Female', level:'2.0', area:'All',
+      venue:'Urban Racquet Club',
+      types:['Singles','Rally'],
+      times:['Weekday PM','Weekend'],
+      note:'Open to all areas — PIK, Pluit, Puri & Central Park. Happy to play singles or rally. Feel free to reach out! 🎾',
+      wa:'6282258656939'
+    }]);
+  }
+  await loadPartners();
+})();
 </script>
 </body>
 </html>
