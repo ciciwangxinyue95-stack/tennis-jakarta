@@ -615,19 +615,13 @@ const V2A = {
 function clr(n){ let h=0; for(let c of n) h=h*31+c.charCodeAt(0); return PALETTE[Math.abs(h)%PALETTE.length]; }
 
 let partners = [
-  {id:1,name:'Amy C.',gender:'Female',level:'2.0',area:'PIK',venue:'Urban Racquet Club',types:['Singles','Rally'],times:['Weekend'],note:'Looking for a consistent rally partner near PIK. Happy to play early mornings before the heat kicks in!',wa:'6281200000001'},
-  {id:2,name:'Linda W.',gender:'Female',level:'2.5',area:'Pluit',venue:'Homeground Signature Pluit',types:['Rally','Doubles'],times:['Weekday PM','Weekend'],note:'5 years playing, steady baseline. Pluit area preferred. Relaxed and friendly sessions only.',wa:'6281200000002'},
-  {id:3,name:'Sarah M.',gender:'Female',level:'2.0',area:'PIK',venue:'Urban Racquet Club',types:['Singles'],times:['Weekend','Holiday'],note:'Early bird ☀️ — love a 7am session before it gets hot. PIK regular, happy to meet new partners.',wa:'6281200000003'},
-  {id:4,name:'Rina K.',gender:'Female',level:'1.5',area:'Puri',venue:'House of Tennis Kedoya',types:['Rally'],times:['Weekday AM'],note:'Beginner building my foundation. Looking for a patient partner to rally with in Puri / Kedoya.',wa:'6281200000004'},
-  {id:5,name:'Mia R.',gender:'Female',level:'2.0',area:'Central Park',venue:'The ACE Court Slipi',types:['Rally','Singles'],times:['Weekend','Weekday PM'],note:'ACE Slipi regular — love long rallies and a set or two. Level 2.0–2.5 most welcome.',wa:'6281200000005'},
-  {id:6,name:'Julia T.',gender:'Female',level:'3.0',area:'Pluit',venue:'Olympus Prime Sports Center',types:['Singles','Doubles'],times:['Weekend'],note:'10 years playing, competitive but friendly. Olympus regular, looking to stay match-sharp.',wa:'6281200000006'},
+  {id:1,name:'Cici',gender:'Female',level:'2.0',area:'PIK',venue:'Urban Racquet Club',types:['Singles','Rally'],times:['Weekday PM','Weekend'],note:'Happy to play singles or rally at any of the Jakarta courts. Feel free to reach out! 🎾',wa:'6282258656939'},
+  {id:2,name:'Cici',gender:'Female',level:'2.0',area:'Pluit',venue:'Homeground Signature Pluit',types:['Singles','Rally'],times:['Weekday PM','Weekend'],note:'Happy to play singles or rally at any of the Jakarta courts. Feel free to reach out! 🎾',wa:'6282258656939'},
+  {id:3,name:'Cici',gender:'Female',level:'2.0',area:'Puri',venue:'House of Tennis Kedoya',types:['Singles','Rally'],times:['Weekday PM','Weekend'],note:'Happy to play singles or rally at any of the Jakarta courts. Feel free to reach out! 🎾',wa:'6282258656939'},
+  {id:4,name:'Cici',gender:'Female',level:'2.0',area:'Central Park',venue:'The ACE Court Slipi',types:['Singles','Rally'],times:['Weekday PM','Weekend'],note:'Happy to play singles or rally at any of the Jakarta courts. Feel free to reach out! 🎾',wa:'6282258656939'},
 ];
 
-let appts = [
-  {id:1,partner:'Amy C.',wn:'6281200000001',date:'2026-04-10',time:'07:00',venue:'Urban Racquet Club',type:'Rally',status:'confirmed'},
-  {id:2,partner:'Linda W.',wn:'6281200000002',date:'2026-04-16',time:'18:30',venue:'Homeground Signature Pluit',type:'Rally',status:'pending'},
-  {id:3,partner:'Sarah M.',wn:'6281200000003',date:'2026-03-22',time:'07:30',venue:'Urban Racquet Club',type:'Singles',status:'confirmed'},
-];
+let appts = [];
 
 let curArea='', bkPartner='', bkWa='';
 
