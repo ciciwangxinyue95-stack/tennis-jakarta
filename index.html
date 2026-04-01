@@ -581,7 +581,11 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
     <div class="fg"><label>Partner</label><input id="mp" type="text" readonly style="opacity:.6;cursor:default"></div>
     <div class="mrow">
       <div class="fg"><label>Date *</label><input id="md" type="date"></div>
-      <div class="fg"><label>Time *</label><input id="mt" type="time" value="07:00"></div>
+      <div class="fg"><label>Start Time *</label><input id="mt" type="time" value="07:00"></div>
+    </div>
+    <div class="mrow">
+      <div class="fg"><label>End Time</label><input id="mt2" type="time" value="09:00"></div>
+      <div class="fg"></div>
     </div>
     <div class="fg"><label>Venue</label>
       <select id="mv">
@@ -658,13 +662,14 @@ function setArea(el,a){
 function toggleCB(l){ setTimeout(()=>{ l.classList.toggle('on', l.querySelector('input').checked); },0); }
 
 function openWA(num,name,msg){
-  const t = msg || `Hi ${name}! I found your profile on TennisMatch Jakarta and would love to arrange a session! 🎾`;
+  const t = msg || `Hi ${name}! I found your profile on TennisMatch Jakarta and would love to arrange a session!`;
   window.open(`https://wa.me/${num}?text=${encodeURIComponent(t)}`, '_blank');
 }
-function contactOwner(){ openWA(OWNER,'Admin',`Hi! I found TennisMatch Jakarta and would like to know more about finding a tennis partner 🎾`); }
+function contactOwner(){ openWA(OWNER,'Admin',`Hi! I found TennisMatch Jakarta and would like to know more about finding a tennis partner!`); }
 
 function bkMsg(a){
-  return `Hi ${a.partner}! Confirming our tennis session:\n📅 ${a.date} at ${a.time}\n📍 ${a.venue}\n🎾 ${a.type}\n\nSee you on court! 🎾`;
+  const timeStr = a.endtime ? `${a.time} - ${a.endtime}` : a.time;
+  return `Hi ${a.partner}! Confirming our tennis session:\nDate: ${a.date}\nTime: ${timeStr}\nVenue: ${a.venue}\nType: ${a.type}\n\nSee you on court!`;
 }
 
 function shareApp(){
@@ -731,6 +736,7 @@ function confirmBook(){
   if(!date){showToast('Please pick a date 📅');return;}
   const a={id:Date.now(),partner:bkPartner,wn:bkWa,
     date,time:document.getElementById('mt').value,
+    endtime:document.getElementById('mt2').value,
     venue:document.getElementById('mv').value,
     type:document.getElementById('mtp').value,status:'pending'};
   appts.unshift(a);
@@ -759,7 +765,7 @@ function renderSched(){
         <div class="adate"><div class="aday">${day}</div><div class="amon">${mon}</div></div>
         <div class="ainfo">
           <div class="atitle">${a.partner} · ${a.type}</div>
-          <div class="adetail">⏰ ${a.time} &nbsp;📍 ${a.venue}</div>
+          <div class="adetail">⏰ ${a.time}${a.endtime ? ' - '+a.endtime : ''} &nbsp; ${a.venue}</div>
         </div>
         <span class="astat ${sc}">${st}</span>
         <div class="abtns">
