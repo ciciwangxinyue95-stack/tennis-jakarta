@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TennisMatch Jakarta · Find Your Partner</title>
+<meta name="description" content="Find tennis partners in Jakarta – PIK, Pluit, Puri, Central Park & South Jakarta. Connect via WhatsApp instantly.">
+<meta property="og:title" content="TennisMatch Jakarta 🎾">
+<meta property="og:description" content="Find your tennis partner in Jakarta. Singles, Rally, Doubles – connect via WhatsApp.">
+<meta property="og:type" content="website">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e1a0f;
+  --surface: #152016;
+  --card: #1c2b1d;
+  --border: #2a3d2b;
+  --court: #3d7a2e;
+  --lime: #a8e063;
+  --clay: #e07840;
+  --cream: #f0ead8;
+  --soft: #7a9c6e;
+  --ink: #e8f0e2;
+  --muted: #5a7254;
+  --wa: #25D366;
+  --wa-dark: #1da851;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* BACKGROUND TEXTURE */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(61,122,46,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(168,224,99,0.06) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* HEADER */
+header {
+  background: rgba(14,26,15,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 32px;
+  position: sticky; top: 0; z-index: 100;
+}
+.header-inner {
+  max-width: 1000px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+}
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.65rem; font-weight: 600;
+  color: var(--cream); letter-spacing: 0.3px;
+  display: flex; align-items: center; gap: 10px;
+}
+.logo-dot { color: var(--lime); }
+.tagline { font-size: 0.72rem; color: var(--muted); margin-top: 1px; letter-spacing: 0.6px; text-transform: uppercase; }
+.header-actions { display: flex; gap: 10px; align-items: center; }
+.btn-owner-wa {
+  background: var(--wa);
+  color: white; border: none;
+  padding: 9px 16px; border-radius: 22px;
+  font-family: 'Outfit', sans-serif; font-size: 0.8rem; font-weight: 500;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; align-items: center; gap: 7px;
+  white-space: nowrap;
+}
+.btn-owner-wa:hover { background: var(--wa-dark); transform: translateY(-1px); }
+.btn-register {
+  background: var(--lime);
+  color: #0e1a0f; border: none;
+  padding: 9px 18px; border-radius: 22px;
+  font-family: 'Outfit', sans-serif; font-size: 0.8rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.btn-register:hover { background: #bef070; transform: translateY(-1px); }
+
+/* TABS */
+.tab-row {
+  max-width: 1000px; margin: 0 auto;
+  padding: 0 32px;
+  display: flex; gap: 2px;
+  border-bottom: 1px solid var(--border);
+  margin-top: 20px;
+  position: relative; z-index: 1;
+}
+.tab {
+  padding: 10px 20px; font-size: 0.84rem; font-weight: 500;
+  color: var(--muted); cursor: pointer;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: all 0.2s; border-radius: 6px 6px 0 0; letter-spacing: 0.2px;
+}
+.tab.active { color: var(--lime); border-bottom-color: var(--lime); background: rgba(168,224,99,0.05); }
+.tab:hover:not(.active) { color: var(--ink); }
+
+/* HERO BANNER */
+.hero {
+  max-width: 1000px; margin: 0 auto;
+  padding: 28px 32px 0;
+  position: relative; z-index: 1;
+}
+.hero-inner {
+  background: linear-gradient(135deg, rgba(61,122,46,0.25) 0%, rgba(168,224,99,0.08) 100%);
+  border: 1px solid rgba(168,224,99,0.2);
+  border-radius: 18px; padding: 22px 26px;
+  display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+}
+.hero-badge {
+  background: var(--lime); color: #0e1a0f;
+  font-size: 0.7rem; font-weight: 700;
+  padding: 4px 10px; border-radius: 12px;
+  text-transform: uppercase; letter-spacing: 0.8px;
+  flex-shrink: 0;
+}
+.hero-text { flex: 1; }
+.hero-text strong { color: var(--lime); font-size: 0.92rem; }
+.hero-text p { font-size: 0.8rem; color: var(--soft); margin-top: 2px; line-height: 1.5; }
+
+/* MAIN */
+main { max-width: 1000px; margin: 0 auto; padding: 24px 32px 60px; position: relative; z-index: 1; }
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* AREA PILLS */
+.area-pills {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 18px; align-items: center;
+}
+.area-pill {
+  padding: 7px 16px; border-radius: 22px;
+  font-size: 0.8rem; font-weight: 500; cursor: pointer;
+  border: 1.5px solid var(--border);
+  color: var(--muted); background: transparent;
+  transition: all 0.2s; font-family: 'Outfit', sans-serif;
+}
+.area-pill:hover { border-color: var(--lime); color: var(--lime); }
+.area-pill.active { background: var(--lime); color: #0e1a0f; border-color: var(--lime); font-weight: 600; }
+
+/* FILTER ROW */
+.filter-row {
+  display: flex; gap: 8px; flex-wrap: wrap;
+  margin-bottom: 22px; align-items: center;
+}
+.filter-row select {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 20px; padding: 7px 14px;
+  font-family: 'Outfit', sans-serif; font-size: 0.8rem;
+  color: var(--ink); cursor: pointer; outline: none;
+  transition: border-color 0.2s;
+}
+.filter-row select:focus { border-color: var(--lime); }
+.filter-sep { width: 1px; height: 20px; background: var(--border); margin: 0 2px; }
+
+/* CARDS */
+.cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px; padding: 20px;
+  transition: all 0.25s; position: relative; overflow: hidden;
+  cursor: default;
+}
+.card-glow {
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--court), var(--lime));
+  opacity: 0.7;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.4);
+  border-color: rgba(168,224,99,0.3);
+}
+.card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.avatar {
+  width: 46px; height: 46px; border-radius: 50%;
+  color: #0e1a0f; display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; font-weight: 700;
+  flex-shrink: 0;
+}
+.card-name { font-weight: 600; font-size: 0.95rem; color: var(--cream); }
+.card-sub { font-size: 0.73rem; color: var(--muted); margin-top: 2px; }
+.badges { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 12px; }
+.badge { font-size: 0.68rem; padding: 3px 9px; border-radius: 10px; font-weight: 500; }
+.b-level { background: rgba(168,224,99,0.15); color: var(--lime); border: 1px solid rgba(168,224,99,0.25); }
+.b-type  { background: rgba(224,120,64,0.15); color: var(--clay); border: 1px solid rgba(224,120,64,0.2); }
+.b-area  { background: rgba(61,122,46,0.2); color: #8dd87e; border: 1px solid rgba(61,122,46,0.3); }
+.card-note { font-size: 0.79rem; color: var(--soft); line-height: 1.6; border-top: 1px solid var(--border); padding-top: 12px; margin-top: 4px; }
+.card-actions { display: flex; gap: 8px; margin-top: 14px; }
+.btn-book {
+  flex: 1; background: var(--court); color: var(--cream);
+  border: none; padding: 9px; border-radius: 10px;
+  font-size: 0.78rem; font-weight: 500; cursor: pointer;
+  transition: background 0.2s; font-family: 'Outfit', sans-serif;
+}
+.btn-book:hover { background: #4a9236; }
+.btn-wa-card {
+  background: var(--wa); color: white; border: none;
+  padding: 9px 12px; border-radius: 10px; font-size: 0.78rem;
+  cursor: pointer; transition: opacity 0.2s;
+  font-family: 'Outfit', sans-serif; font-weight: 500;
+  display: flex; align-items: center; gap: 5px; white-space: nowrap;
+}
+.btn-wa-card:hover { opacity: 0.85; }
+.wa-svg { width: 14px; height: 14px; fill: white; flex-shrink: 0; }
+
+/* FORM */
+.form-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start; }
+@media (max-width: 720px) { .form-wrap { grid-template-columns: 1fr; } }
+.form-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 20px; padding: 30px;
+}
+.form-title { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; color: var(--cream); margin-bottom: 4px; }
+.form-sub { font-size: 0.79rem; color: var(--muted); margin-bottom: 24px; }
+.form-group { margin-bottom: 16px; }
+.form-group label { display: block; font-size: 0.76rem; font-weight: 500; color: var(--muted); margin-bottom: 6px; letter-spacing: 0.3px; text-transform: uppercase; }
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 11px 14px; font-family: 'Outfit', sans-serif;
+  font-size: 0.85rem; color: var(--ink); outline: none;
+  transition: border-color 0.2s;
+}
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus { border-color: var(--lime); }
+.form-group textarea { resize: vertical; min-height: 80px; }
+.form-group select option { background: #1c2b1d; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.hint { font-size: 0.7rem; color: var(--muted); margin-top: 5px; }
+.hint strong { color: var(--wa); }
+
+.cbgroup { display: flex; flex-wrap: wrap; gap: 6px; }
+.cblabel {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 0.78rem; cursor: pointer;
+  padding: 6px 12px; border: 1px solid var(--border);
+  border-radius: 20px; transition: all 0.2s; user-select: none;
+  color: var(--muted);
+}
+.cblabel:hover { border-color: var(--lime); color: var(--lime); }
+.cblabel input { display: none; }
+.cblabel.checked { background: var(--lime); color: #0e1a0f; border-color: var(--lime); font-weight: 600; }
+.btn-submit {
+  width: 100%; background: var(--lime); color: #0e1a0f;
+  border: none; padding: 13px; border-radius: 12px;
+  font-family: 'Outfit', sans-serif; font-size: 0.92rem; font-weight: 700;
+  cursor: pointer; margin-top: 8px; transition: all 0.2s; letter-spacing: 0.2px;
+}
+.btn-submit:hover { background: #bef070; transform: translateY(-1px); }
+
+/* INFO PANEL */
+.info-panel {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 26px;
+}
+.info-panel h3 {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+  color: var(--cream); margin-bottom: 16px;
+}
+.info-item {
+  display: flex; gap: 12px; align-items: flex-start;
+  margin-bottom: 16px; padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.info-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.info-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+.info-item p { font-size: 0.8rem; color: var(--soft); line-height: 1.6; }
+.info-item p strong { color: var(--lime); }
+
+/* SCHEDULE */
+.sched-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.section-title {
+  font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+  color: var(--cream); font-weight: 600;
+}
+.appt-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 30px; }
+.appt-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 15px 18px;
+  display: flex; align-items: center; gap: 14px;
+  transition: all 0.2s; flex-wrap: wrap;
+}
+.appt-card:hover { border-color: rgba(168,224,99,0.2); }
+.appt-date { text-align: center; min-width: 46px; }
+.appt-day { font-size: 1.5rem; font-weight: 700; color: var(--lime); line-height: 1; font-family: 'Cormorant Garamond', serif; }
+.appt-month { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.appt-info { flex: 1; min-width: 140px; }
+.appt-title { font-weight: 600; font-size: 0.88rem; color: var(--cream); }
+.appt-details { font-size: 0.73rem; color: var(--muted); margin-top: 3px; }
+.appt-status { font-size: 0.68rem; padding: 4px 10px; border-radius: 10px; font-weight: 600; white-space: nowrap; }
+.s-confirmed { background: rgba(168,224,99,0.15); color: var(--lime); }
+.s-pending   { background: rgba(224,180,64,0.15); color: #e0b840; }
+.s-cancelled { background: rgba(224,80,80,0.15); color: #e06060; }
+.appt-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.btn-xs {
+  font-size: 0.7rem; padding: 5px 10px; border-radius: 8px;
+  border: 1px solid var(--border); background: transparent;
+  cursor: pointer; font-family: 'Outfit', sans-serif;
+  color: var(--muted); transition: all 0.2s;
+}
+.btn-xs:hover { border-color: var(--lime); color: var(--lime); }
+.btn-xs.red:hover { border-color: #e06060; color: #e06060; }
+.btn-xs-wa {
+  font-size: 0.7rem; padding: 5px 10px; border-radius: 8px;
+  border: none; background: var(--wa); color: white;
+  cursor: pointer; font-family: 'Outfit', sans-serif;
+  transition: opacity 0.2s; display: flex; align-items: center; gap: 4px;
+}
+.btn-xs-wa:hover { opacity: 0.8; }
+
+/* MODAL */
+.overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7); z-index: 200;
+  align-items: center; justify-content: center; padding: 20px;
+  backdrop-filter: blur(4px);
+}
+.overlay.open { display: flex; }
+.modal {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 22px; padding: 30px; width: 100%; max-width: 440px;
+  animation: rise 0.25s ease;
+}
+@keyframes rise { from { transform: translateY(24px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+.modal-title { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; color: var(--cream); margin-bottom: 20px; }
+.modal-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.modal-actions { display: flex; gap: 10px; margin-top: 18px; }
+.btn-cancel {
+  flex: 1; background: transparent; border: 1px solid var(--border);
+  color: var(--muted); padding: 11px; border-radius: 10px;
+  cursor: pointer; font-family: 'Outfit', sans-serif; font-size: 0.85rem; transition: all 0.2s;
+}
+.btn-cancel:hover { border-color: var(--muted); }
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 24px; left: 50%;
+  transform: translateX(-50%) translateY(80px);
+  background: var(--lime); color: #0e1a0f;
+  padding: 11px 22px; border-radius: 24px;
+  font-size: 0.82rem; font-weight: 700; z-index: 300;
+  transition: transform 0.3s ease; pointer-events: none; white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(168,224,99,0.3);
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* EMPTY */
+.empty { text-align: center; padding: 48px 24px; color: var(--muted); }
+.empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
+.empty-text { font-size: 0.86rem; }
+
+/* SHARE BANNER */
+.share-banner {
+  background: linear-gradient(135deg, rgba(61,122,46,0.3), rgba(168,224,99,0.1));
+  border: 1px solid rgba(168,224,99,0.25);
+  border-radius: 14px; padding: 16px 20px;
+  margin-bottom: 22px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.share-url {
+  flex: 1; font-size: 0.78rem; color: var(--lime);
+  font-family: monospace; background: rgba(0,0,0,0.3);
+  padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
+}
+.btn-copy {
+  background: var(--lime); color: #0e1a0f; border: none;
+  padding: 7px 14px; border-radius: 8px;
+  font-family: 'Outfit', sans-serif; font-size: 0.78rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.btn-copy:hover { background: #bef070; }
+
+@media (max-width: 640px) {
+  .form-row, .modal-row { grid-template-columns: 1fr; }
+  .form-card, .modal { padding: 20px; }
+  header { padding: 14px 18px; }
+  main, .hero, .tab-row { padding-left: 16px; padding-right: 16px; }
+  .tab-row { padding: 0 16px; }
+  .tab { padding: 9px 12px; font-size: 0.78rem; }
+  .logo { font-size: 1.35rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div>
+      <div class="logo">🎾 TennisMatch <span class="logo-dot">·</span> Jakarta</div>
+      <div class="tagline">PIK · Pluit · Puri · Central Park · South Jakarta</div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-owner-wa" onclick="contactOwner()">
+        <svg style="width:14px;height:14px;fill:white;flex-shrink:0" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Contact Admin
+      </button>
+      <button class="btn-register" onclick="switchTab('register')">+ Join</button>
+    </div>
+  </div>
+</header>
+
+<div class="tab-row">
+  <div class="tab active" onclick="switchTab('browse')" id="tab-browse">🔍 Find Partners</div>
+  <div class="tab" onclick="switchTab('register')" id="tab-register">📋 Register</div>
+  <div class="tab" onclick="switchTab('schedule')" id="tab-schedule">📅 My Sessions</div>
+</div>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">🎾 Live</div>
+    <div class="hero-text">
+      <strong>Jakarta Tennis Partner Network</strong>
+      <p>NTRP 2.0 community · Singles &amp; Rally focus · Female-friendly · Connect instantly via WhatsApp</p>
+    </div>
+    <button class="btn-copy" onclick="shareApp()" style="flex-shrink:0">🔗 Share This Page</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- BROWSE -->
+  <div class="panel active" id="panel-browse">
+    <div class="area-pills" id="area-pills">
+      <span class="area-pill active" data-area="" onclick="setArea(this,'')">All Areas</span>
+      <span class="area-pill" data-area="PIK" onclick="setArea(this,'PIK')">📍 PIK</span>
+      <span class="area-pill" data-area="Pluit" onclick="setArea(this,'Pluit')">📍 Pluit</span>
+      <span class="area-pill" data-area="Puri" onclick="setArea(this,'Puri')">📍 Puri</span>
+      <span class="area-pill" data-area="Central Park" onclick="setArea(this,'Central Park')">📍 Central Park</span>
+      <span class="area-pill" data-area="South Jakarta" onclick="setArea(this,'South Jakarta')">📍 South Jakarta</span>
+    </div>
+    <div class="filter-row">
+      <select onchange="renderCards()" id="fl">
+        <option value="">All Levels</option>
+        <option value="1.0">1.0</option>
+        <option value="1.5">1.5</option>
+        <option value="2.0" selected>2.0</option>
+        <option value="2.5">2.5</option>
+        <option value="3.0">3.0</option>
+        <option value="3.5">3.5+</option>
+      </select>
+      <select onchange="renderCards()" id="ft">
+        <option value="">All Types</option>
+        <option value="Singles">Singles</option>
+        <option value="Rally">Rally / Hit</option>
+        <option value="Doubles">Doubles</option>
+      </select>
+      <select onchange="renderCards()" id="fv">
+        <option value="">All Venues</option>
+        <optgroup label="PIK">
+          <option>PIK Tennis Club</option>
+          <option>Green Bay PIK Court</option>
+          <option>Pantai Indah Kapuk Indoor Court</option>
+        </optgroup>
+        <optgroup label="Pluit">
+          <option>Pluit Village Court</option>
+          <option>Pluit Junction Sports</option>
+          <option>Muara Baru Tennis Court</option>
+        </optgroup>
+        <optgroup label="Puri">
+          <option>Puri Indah Tennis Club</option>
+          <option>Prima Sport Center Kedoya</option>
+          <option>Puri Mansion Court</option>
+        </optgroup>
+        <optgroup label="Central Park">
+          <option>Jakarta Tennis Academy (Srengseng)</option>
+          <option>The ACE Court (Tomang)</option>
+          <option>Intercon Tennis Court</option>
+          <option>Tomang Court</option>
+        </optgroup>
+        <optgroup label="South Jakarta">
+          <option>GBK Senayan Tennis Centre</option>
+          <option>GOR Soemantri Kuningan</option>
+          <option>Bulungan Tennis Court</option>
+          <option>Cilandak Sports Center</option>
+        </optgroup>
+      </select>
+    </div>
+    <div class="cards-grid" id="cards-container"></div>
+  </div>
+
+  <!-- REGISTER -->
+  <div class="panel" id="panel-register">
+    <div class="form-wrap">
+      <div class="form-card">
+        <div class="form-title">Register Your Profile</div>
+        <div class="form-sub">Share your details and let the right partner find you 🎾</div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nickname *</label>
+            <input type="text" id="f-name" placeholder="e.g. Sarah">
+          </div>
+          <div class="form-group">
+            <label>Gender</label>
+            <select id="f-gender">
+              <option>Female</option>
+              <option>Male</option>
+              <option>Any</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>WhatsApp Number *</label>
+          <input type="tel" id="f-wa" placeholder="628xxxxxxxxxx">
+          <div class="hint">Include country code — <strong>62</strong> for Indonesia. E.g. <strong>628223456789</strong></div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>NTRP Level *</label>
+            <select id="f-level">
+              <option value="1.0">1.0 – Beginner</option>
+              <option value="1.5">1.5 – Novice</option>
+              <option value="2.0" selected>2.0 – Beg-Int</option>
+              <option value="2.5">2.5 – Intermediate</option>
+              <option value="3.0">3.0 – Int-Adv</option>
+              <option value="3.5">3.5+ – Advanced</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Area *</label>
+            <select id="f-area">
+              <option>PIK</option>
+              <option>Pluit</option>
+              <option>Puri</option>
+              <option>Central Park</option>
+              <option>South Jakarta</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Preferred Venue *</label>
+          <select id="f-venue">
+            <optgroup label="PIK">
+              <option>PIK Tennis Club</option>
+              <option>Green Bay PIK Court</option>
+              <option>Pantai Indah Kapuk Indoor Court</option>
+            </optgroup>
+            <optgroup label="Pluit">
+              <option>Pluit Village Court</option>
+              <option>Pluit Junction Sports</option>
+              <option>Muara Baru Tennis Court</option>
+            </optgroup>
+            <optgroup label="Puri">
+              <option>Puri Indah Tennis Club</option>
+              <option>Prima Sport Center Kedoya</option>
+              <option>Puri Mansion Court</option>
+            </optgroup>
+            <optgroup label="Central Park">
+              <option>Jakarta Tennis Academy (Srengseng)</option>
+              <option>The ACE Court (Tomang)</option>
+              <option>Intercon Tennis Court</option>
+              <option>Tomang Court</option>
+            </optgroup>
+            <optgroup label="South Jakarta">
+              <option>GBK Senayan Tennis Centre</option>
+              <option>GOR Soemantri Kuningan</option>
+              <option>Bulungan Tennis Court</option>
+              <option>Cilandak Sports Center</option>
+            </optgroup>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Play Style * (multi-select)</label>
+          <div class="cbgroup" id="cg-type">
+            <label class="cblabel checked" onclick="toggleCB(this)"><input type="checkbox" value="Singles" checked> Singles</label>
+            <label class="cblabel checked" onclick="toggleCB(this)"><input type="checkbox" value="Rally" checked> Rally / Hit</label>
+            <label class="cblabel" onclick="toggleCB(this)"><input type="checkbox" value="Doubles"> Doubles</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Available Times</label>
+          <div class="cbgroup" id="cg-time">
+            <label class="cblabel" onclick="toggleCB(this)"><input type="checkbox" value="Weekday AM"> Weekday AM</label>
+            <label class="cblabel" onclick="toggleCB(this)"><input type="checkbox" value="Weekday PM"> Weekday PM</label>
+            <label class="cblabel" onclick="toggleCB(this)"><input type="checkbox" value="Weekend"> Weekend</label>
+            <label class="cblabel" onclick="toggleCB(this)"><input type="checkbox" value="Holiday"> Holiday</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>About You (optional)</label>
+          <textarea id="f-note" placeholder="Level, style, what you're looking for..."></textarea>
+        </div>
+
+        <button class="btn-submit" onclick="submitForm()">🎾 Publish My Profile</button>
+      </div>
+
+      <div class="info-panel">
+        <h3>How it works</h3>
+        <div class="info-item">
+          <div class="info-icon">📋</div>
+          <p><strong>Register</strong> — Fill in your level, preferred area &amp; venue, and play style. Your profile goes live immediately for others to find.</p>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🔍</div>
+          <p><strong>Browse</strong> — Filter partners by area (PIK, Pluit, Puri, Central Park, South JKT), level, and type. Find someone compatible.</p>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">💬</div>
+          <p><strong>WhatsApp direct</strong> — Tap the green button to open a pre-filled WA message and connect instantly. No app needed.</p>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">📅</div>
+          <p><strong>Book &amp; track</strong> — Schedule sessions and manage them in <em>My Sessions</em>. A WA reminder is sent automatically.</p>
+        </div>
+        <div class="info-item">
+          <div class="info-icon">🔗</div>
+          <p><strong>Share the page</strong> — Use the <strong>Share This Page</strong> button to send the link to your tennis group and grow the community!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCHEDULE -->
+  <div class="panel" id="panel-schedule">
+    <div class="sched-header"><div class="section-title">Upcoming Sessions</div></div>
+    <div class="appt-list" id="upcoming-list"></div>
+    <div class="sched-header" style="margin-top:8px"><div class="section-title">Past Sessions</div></div>
+    <div class="appt-list" id="past-list"></div>
+  </div>
+
+</main>
+
+<!-- BOOK MODAL -->
+<div class="overlay" id="modal-book">
+  <div class="modal">
+    <div class="modal-title">📅 Book a Session</div>
+    <div class="form-group">
+      <label>Partner</label>
+      <input type="text" id="m-partner" readonly style="opacity:0.6;cursor:default">
+    </div>
+    <div class="modal-row">
+      <div class="form-group"><label>Date *</label><input type="date" id="m-date"></div>
+      <div class="form-group"><label>Time *</label><input type="time" id="m-time" value="07:00"></div>
+    </div>
+    <div class="form-group">
+      <label>Venue</label>
+      <select id="m-venue">
+        <optgroup label="PIK"><option>PIK Tennis Club</option><option>Green Bay PIK Court</option><option>Pantai Indah Kapuk Indoor Court</option></optgroup>
+        <optgroup label="Pluit"><option>Pluit Village Court</option><option>Pluit Junction Sports</option><option>Muara Baru Tennis Court</option></optgroup>
+        <optgroup label="Puri"><option>Puri Indah Tennis Club</option><option>Prima Sport Center Kedoya</option><option>Puri Mansion Court</option></optgroup>
+        <optgroup label="Central Park"><option>Jakarta Tennis Academy (Srengseng)</option><option>The ACE Court (Tomang)</option><option>Intercon Tennis Court</option></optgroup>
+        <optgroup label="South Jakarta"><option>GBK Senayan Tennis Centre</option><option>GOR Soemantri Kuningan</option><option>Bulungan Tennis Court</option><option>Cilandak Sports Center</option></optgroup>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Type</label>
+      <select id="m-type"><option>Singles</option><option>Rally / Hit</option><option>Doubles</option></select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+      <button class="btn-submit" style="margin-top:0" onclick="confirmBook()">Confirm &amp; Send WA 💬</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONFIG ──
+const OWNER_WA = '6282258656939'; // +62 822-5865-6939
+
+// ── VENUE → AREA MAP ──
+const V2A = {
+  'PIK Tennis Club':'PIK','Green Bay PIK Court':'PIK','Pantai Indah Kapuk Indoor Court':'PIK',
+  'Pluit Village Court':'Pluit','Pluit Junction Sports':'Pluit','Muara Baru Tennis Court':'Pluit',
+  'Puri Indah Tennis Club':'Puri','Prima Sport Center Kedoya':'Puri','Puri Mansion Court':'Puri',
+  'Jakarta Tennis Academy (Srengseng)':'Central Park','The ACE Court (Tomang)':'Central Park','Intercon Tennis Court':'Central Park','Tomang Court':'Central Park',
+  'GBK Senayan Tennis Centre':'South Jakarta','GOR Soemantri Kuningan':'South Jakarta','Bulungan Tennis Court':'South Jakarta','Cilandak Sports Center':'South Jakarta',
+};
+
+const PALETTE = ['#a8e063','#e07840','#4a9236','#e0b840','#60b8e0','#e060a0'];
+function color(n){ let h=0; for(let c of n) h=h*31+c.charCodeAt(0); return PALETTE[Math.abs(h)%PALETTE.length]; }
+
+const WA_SVG = `<svg class="wa-svg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+
+// ── DATA ──
+let partners = [
+  {id:1,name:'Amy C.',gender:'Female',level:'2.0',area:'PIK',venue:'PIK Tennis Club',types:['Singles','Rally'],times:['Weekend'],note:'Looking for a consistent hitting partner. Based near PIK, happy to play early mornings.',wa:'6281200000001'},
+  {id:2,name:'Linda W.',gender:'Female',level:'2.5',area:'Pluit',venue:'Pluit Village Court',types:['Rally','Doubles'],times:['Weekday PM','Weekend'],note:'5 years playing, steady baseline. Open to Pluit / PIK area. Relaxed sessions preferred.',wa:'6281200000002'},
+  {id:3,name:'Sarah M.',gender:'Female',level:'2.0',area:'PIK',venue:'Green Bay PIK Court',types:['Singles'],times:['Weekend','Holiday'],note:'Love a 7am session before it gets hot ☀️ North area preferred, Green Bay regular.',wa:'6281200000003'},
+  {id:4,name:'Rina K.',gender:'Female',level:'1.5',area:'Puri',venue:'Prima Sport Center Kedoya',types:['Rally'],times:['Weekday AM'],note:'Beginner building foundations. Looking for patient, encouraging partner in Puri / Kedoya.',wa:'6281200000004'},
+  {id:5,name:'Mia R.',gender:'Female',level:'2.0',area:'Central Park',venue:'Jakarta Tennis Academy (Srengseng)',types:['Rally','Singles'],times:['Weekend','Weekday PM'],note:'JTA regular, happy to mix rallies and sets. Level 2.0–2.5 welcome.',wa:'6281200000005'},
+  {id:6,name:'Julia T.',gender:'Female',level:'3.0',area:'South Jakarta',venue:'GBK Senayan Tennis Centre',types:['Singles','Doubles'],times:['Weekend'],note:'10 years playing, match-ready mindset, friendly court manner. GBK / Senayan area.',wa:'6281200000006'},
+];
+
+let appointments = [
+  {id:1,partner:'Amy C.',waNum:'6281200000001',date:'2026-04-10',time:'07:00',venue:'PIK Tennis Club',type:'Rally',status:'confirmed'},
+  {id:2,partner:'Linda W.',waNum:'6281200000002',date:'2026-04-16',time:'18:30',venue:'Pluit Village Court',type:'Rally',status:'pending'},
+  {id:3,partner:'Sarah M.',waNum:'6281200000003',date:'2026-03-22',time:'07:30',venue:'Green Bay PIK Court',type:'Singles',status:'confirmed'},
+];
+
+let activeArea = '';
+let bookPartner = '', bookWa = '';
+
+// ── TABS ──
+function switchTab(t){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.getElementById('panel-'+t).classList.add('active');
+  document.getElementById('tab-'+t).classList.add('active');
+  if(t==='schedule') renderSchedule();
+}
+
+// ── AREA PILLS ──
+function setArea(el, area){
+  document.querySelectorAll('.area-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+  activeArea = area;
+  // Sync venue dropdown visibility (filter only)
+  renderCards();
+}
+
+// ── CHECKBOX ──
+function toggleCB(lbl){ setTimeout(()=>{ lbl.classList.toggle('checked', lbl.querySelector('input').checked); },0); }
+
+// ── WA ──
+function openWA(num, name, msg){
+  const text = msg || `Hi ${name}! I found your profile on TennisMatch Jakarta. Would love to arrange a session! 🎾`;
+  window.open(`https://wa.me/${num}?text=${encodeURIComponent(text)}`, '_blank');
+}
+function contactOwner(){
+  openWA(OWNER_WA, 'Admin', `Hi! I found TennisMatch Jakarta and would like to know more about finding a tennis partner. 🎾`);
+}
+function bookMsg(a){
+  return `Hi ${a.partner}! Confirming our tennis session:\n📅 ${a.date} at ${a.time}\n📍 ${a.venue}\n🎾 ${a.type}\n\nSee you on court! 🎾`;
+}
+
+// ── SHARE ──
+function shareApp(){
+  const url = window.location.href;
+  if(navigator.share){
+    navigator.share({ title:'TennisMatch Jakarta 🎾', text:'Find tennis partners in Jakarta — PIK, Pluit, Puri, Central Park & South Jakarta!', url });
+  } else {
+    navigator.clipboard.writeText(url).then(()=>showToast('🔗 Link copied to clipboard!')).catch(()=>{
+      prompt('Copy this link to share:', url);
+    });
+  }
+}
+
+// ── RENDER CARDS ──
+function renderCards(){
+  const lf = document.getElementById('fl').value;
+  const tf = document.getElementById('ft').value;
+  const vf = document.getElementById('fv').value;
+
+  let list = partners.filter(p => {
+    if(activeArea && p.area !== activeArea) return false;
+    if(lf && p.level !== lf) return false;
+    if(tf && !p.types.includes(tf)) return false;
+    if(vf && p.venue !== vf) return false;
+    return true;
+  });
+
+  const el = document.getElementById('cards-container');
+  if(!list.length){
+    el.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-icon">🎾</div><div class="empty-text">No partners found — try adjusting the filters or area.</div></div>`;
+    return;
+  }
+
+  el.innerHTML = list.map(p=>`
+    <div class="card">
+      <div class="card-glow"></div>
+      <div class="card-header">
+        <div class="avatar" style="background:${color(p.name)}">${p.name[0]}</div>
+        <div>
+          <div class="card-name">${p.name}</div>
+          <div class="card-sub">${p.gender} · ${p.times.join(', ')}</div>
+        </div>
+      </div>
+      <div class="badges">
+        <span class="badge b-level">NTRP ${p.level}</span>
+        ${p.types.map(t=>`<span class="badge b-type">${t}</span>`).join('')}
+        <span class="badge b-area">📍 ${p.area}</span>
+      </div>
+      <div style="font-size:0.72rem;color:var(--muted);margin-bottom:8px">🏟 ${p.venue}</div>
+      <div class="card-note">${p.note}</div>
+      <div class="card-actions">
+        <button class="btn-book" onclick="openBook('${p.name}','${p.wa}','${p.venue}')">📅 Book Session</button>
+        <button class="btn-wa-card" onclick="openWA('${p.wa}','${p.name}')">${WA_SVG} WhatsApp</button>
+      </div>
+    </div>`).join('');
+}
+
+// ── BOOK ──
+function openBook(name, wa, venue){
+  bookPartner=name; bookWa=wa;
+  document.getElementById('m-partner').value=name;
+  document.getElementById('m-date').min=new Date().toISOString().split('T')[0];
+  document.getElementById('m-date').value='';
+  const vs=document.getElementById('m-venue');
+  for(let o of vs.options){ if(o.value===venue){o.selected=true;break;} }
+  document.getElementById('modal-book').classList.add('open');
+}
+function closeModal(){ document.getElementById('modal-book').classList.remove('open'); }
+function confirmBook(){
+  const date=document.getElementById('m-date').value;
+  if(!date){showToast('Please pick a date 📅');return;}
+  const appt={id:Date.now(),partner:bookPartner,waNum:bookWa,
+    date,time:document.getElementById('m-time').value,
+    venue:document.getElementById('m-venue').value,
+    type:document.getElementById('m-type').value,status:'pending'};
+  appointments.unshift(appt);
+  closeModal();
+  showToast(`✅ Booked! Opening WhatsApp…`);
+  setTimeout(()=>openWA(bookWa,bookPartner,bookMsg(appt)),600);
+}
+
+// ── SCHEDULE ──
+function fmtD(d){
+  const dt=new Date(d+'T00:00:00');
+  return{day:dt.getDate(),mon:dt.toLocaleString('en',{month:'short'})};
+}
+function renderSchedule(){
+  const today=new Date().toISOString().split('T')[0];
+  const up=appointments.filter(a=>a.date>=today&&a.status!=='cancelled').sort((a,b)=>a.date.localeCompare(b.date));
+  const past=appointments.filter(a=>a.date<today||a.status==='cancelled').sort((a,b)=>b.date.localeCompare(a.date));
+  const draw=(list,id)=>{
+    const el=document.getElementById(id);
+    if(!list.length){el.innerHTML=`<div class="empty"><div class="empty-icon">📭</div><div class="empty-text">Nothing here yet</div></div>`;return;}
+    el.innerHTML=list.map(a=>{
+      const{day,mon}=fmtD(a.date);
+      const sc={confirmed:'s-confirmed',pending:'s-pending',cancelled:'s-cancelled'}[a.status];
+      const st={confirmed:'✓ Confirmed',pending:'⏳ Pending',cancelled:'✕ Cancelled'}[a.status];
+      const msg=bookMsg(a).replace(/'/g,"\\'").replace(/\n/g,'\\n');
+      return`<div class="appt-card">
+        <div class="appt-date"><div class="appt-day">${day}</div><div class="appt-month">${mon}</div></div>
+        <div class="appt-info">
+          <div class="appt-title">${a.partner} · ${a.type}</div>
+          <div class="appt-details">⏰ ${a.time} &nbsp;📍 ${a.venue}</div>
+        </div>
+        <span class="appt-status ${sc}">${st}</span>
+        <div class="appt-btns">
+          <button class="btn-xs-wa" onclick="openWA('${a.waNum}','${a.partner}','${msg}')">${WA_SVG} WA</button>
+          ${a.status==='pending'?`<button class="btn-xs" onclick="updS(${a.id},'confirmed')">Confirm</button>`:''}
+          ${a.status!=='cancelled'?`<button class="btn-xs red" onclick="updS(${a.id},'cancelled')">Cancel</button>`:''}
+        </div>
+      </div>`;
+    }).join('');
+  };
+  draw(up,'upcoming-list');
+  draw(past,'past-list');
+}
+function updS(id,s){
+  const a=appointments.find(x=>x.id===id);
+  if(a){a.status=s;renderSchedule();showToast(s==='confirmed'?'✅ Session confirmed!':'❌ Session cancelled');}
+}
+
+// ── SUBMIT ──
+function submitForm(){
+  const name=document.getElementById('f-name').value.trim();
+  const wa=document.getElementById('f-wa').value.trim().replace(/\D/g,'');
+  if(!name){showToast('Please enter your nickname 📝');return;}
+  if(!wa||wa.length<8){showToast('Please enter a valid WhatsApp number 📱');return;}
+  const level=document.getElementById('f-level').value;
+  const gender=document.getElementById('f-gender').value;
+  const area=document.getElementById('f-area').value;
+  const venue=document.getElementById('f-venue').value;
+  const note=document.getElementById('f-note').value.trim();
+  const types=[...document.querySelectorAll('#cg-type .checked input')].map(i=>i.value);
+  const times=[...document.querySelectorAll('#cg-time .checked input')].map(i=>i.value);
+  if(!types.length){showToast('Please select at least one play style 🎾');return;}
+  partners.unshift({id:Date.now(),name,gender,level,area,venue,types,times,note:note||'—',wa});
+  showToast(`🎾 Profile live! Welcome, ${name}!`);
+  document.getElementById('f-name').value='';
+  document.getElementById('f-wa').value='';
+  document.getElementById('f-note').value='';
+  setTimeout(()=>{switchTab('browse');renderCards();},1200);
+}
+
+// ── TOAST ──
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+// ── INIT ──
+document.getElementById('modal-book').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+renderCards();
+</script>
+</body>
+</html>
