@@ -995,7 +995,6 @@ function prefillAndOpenEdit() {
 
 function closeEditModal() {
   document.getElementById('modal-edit').classList.remove('open');
-  editId = null;
 }
 
 function openEditModal(id) {
@@ -1065,6 +1064,7 @@ async function saveEdit() {
   if (error) { showToast('Error saving changes 😢'); console.error(error); return; }
   showToast('✅ Profile updated!');
   closeEditModal();
+  editId = null;
   await loadPartners();
 }
 
@@ -1077,21 +1077,8 @@ document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.cu
 document.getElementById('modal-edit').addEventListener('click',e=>{if(e.target===e.currentTarget)closeEditModal();});
 document.getElementById('modal-me').addEventListener('click',e=>{if(e.target===e.currentTarget)closeMeModal();});
 
-// Insert Cici's profile if table is empty, then load
-(async () => {
-  const { data } = await supa.from('partners').select('id').limit(1);
-  if (!data || data.length === 0) {
-    await supa.from('partners').insert([{
-      name:'Cici', gender:'Female', level:'2.0', area:'All',
-      venue:'Urban Racquet Club',
-      types:['Singles','Rally'],
-      times:['Weekday PM','Weekend'],
-      note:'Open to all areas — PIK, Pluit, Puri & Central Park. Happy to play singles or rally. Feel free to reach out! 🎾',
-      wa:'6282258656939'
-    }]);
-  }
-  await loadPartners();
-})();
+// Load partners on init
+loadPartners();
 </script>
 </body>
 </html>
