@@ -178,6 +178,11 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 .b-vn { background: #f5f0ff; color: #7b5ea7; border: 1px solid #d8c8f4; }
 .venue-line { font-size: 0.72rem; color: var(--muted); margin-bottom: 10px; }
 .card-note { font-size: 0.79rem; color: var(--mid); line-height: 1.6; border-top: 1px solid var(--border); padding-top: 11px; }
+.card { cursor: pointer; }
+.detail-section { margin-bottom: 14px; }
+.detail-label { font-size: 0.68rem; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+.detail-badges { display: flex; flex-wrap: wrap; gap: 5px; }
+.detail-note { font-size: 0.82rem; color: var(--mid); line-height: 1.6; }
 .card-btns { display: flex; gap: 8px; margin-top: 13px; }
 .btn-book {
   flex: 1; background: var(--green-lt); color: var(--green);
@@ -601,6 +606,41 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 
 </main>
 
+<!-- DETAIL MODAL -->
+<div class="overlay" id="modal-detail" onclick="if(event.target===this)closeDetail()">
+  <div class="modal" style="max-width:420px">
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <div class="av" id="det-av" style="width:48px;height:48px;font-size:1.2rem"></div>
+      <div>
+        <div class="cn" id="det-name" style="font-size:1.05rem"></div>
+        <div class="cs" id="det-sub" style="font-size:0.76rem"></div>
+      </div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Level & Play Style</div>
+      <div class="detail-badges" id="det-tags"></div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Areas</div>
+      <div class="detail-badges" id="det-areas"></div>
+    </div>
+    <div class="detail-section">
+      <div class="detail-label">Venues</div>
+      <div class="detail-badges" id="det-venues"></div>
+    </div>
+    <div class="detail-section" id="det-note-wrap">
+      <div class="detail-label">Note</div>
+      <div class="detail-note" id="det-note"></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:18px">
+      <button class="btn-book" style="flex:1" id="det-book">📅 Book</button>
+      <button class="btn-wac" style="flex:1" id="det-chat">💬 Chat</button>
+      <button class="btn-edit" id="det-edit" title="Edit">✏️</button>
+    </div>
+    <button onclick="closeDetail()" style="position:absolute;top:12px;right:14px;background:none;border:none;font-size:1.3rem;color:var(--muted);cursor:pointer">✕</button>
+  </div>
+</div>
+
 <!-- MY PROFILE MODAL -->
 <div class="overlay" id="modal-me">
   <div class="modal">
@@ -863,7 +903,7 @@ function renderCards(){
     return;
   }
   el.innerHTML = list.map(p=>`
-    <div class="card">
+    <div class="card" onclick="openDetail(${p.id})">
       <div class="card-stripe"></div>
       <div class="card-top">
         <div class="av" style="background:${clr(p.name)}">${p.name[0]}</div>
@@ -873,10 +913,8 @@ function renderCards(){
         <span class="badge b-lv">NTRP ${p.level}</span>
         ${p.types.map(t=>`<span class="badge b-tp">${t}</span>`).join('')}
         ${(p.area === 'All' ? ['All Areas'] : (p.area||'').split(', ').filter(Boolean)).map(a=>`<span class="badge b-ar">${a}</span>`).join('')}
-        ${(p.venue||'').split(', ').filter(Boolean).map(v=>`<span class="badge b-vn">📍${v}</span>`).join('')}
       </div>
-      <div class="card-note">${p.note}</div>
-      <div class="card-btns">
+      <div class="card-btns" onclick="event.stopPropagation()">
         <button class="btn-book" onclick="openBook('${p.name}','${p.wa}','${p.venue}')">
           <svg style="width:13px;height:13px;fill:currentColor;vertical-align:middle;margin-right:4px" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>Book
         </button>
@@ -887,6 +925,33 @@ function renderCards(){
       </div>
     </div>`).join('');
 }
+
+function openDetail(id) {
+  var p = partners.find(function(x){ return x.id === id; });
+  if (!p) return;
+  document.getElementById('det-av').style.background = clr(p.name);
+  document.getElementById('det-av').textContent = p.name[0];
+  document.getElementById('det-name').textContent = p.name;
+  document.getElementById('det-sub').textContent = p.gender + ' · ' + p.times.join(' · ');
+  document.getElementById('det-tags').innerHTML =
+    '<span class="badge b-lv">NTRP ' + p.level + '</span>' +
+    p.types.map(function(t){ return '<span class="badge b-tp">' + t + '</span>'; }).join('');
+  var areas = p.area === 'All' ? ['All Areas'] : (p.area||'').split(', ').filter(Boolean);
+  document.getElementById('det-areas').innerHTML =
+    areas.map(function(a){ return '<span class="badge b-ar">' + a + '</span>'; }).join('');
+  var venues = (p.venue||'').split(', ').filter(Boolean);
+  document.getElementById('det-venues').innerHTML =
+    venues.map(function(v){ return '<span class="badge b-vn">📍 ' + v + '</span>'; }).join('');
+  var noteWrap = document.getElementById('det-note-wrap');
+  var note = p.note && p.note !== '—' ? p.note : '';
+  if (note) { noteWrap.style.display = ''; document.getElementById('det-note').textContent = note; }
+  else { noteWrap.style.display = 'none'; }
+  document.getElementById('det-book').onclick = function(){ closeDetail(); openBook(p.name, p.wa, p.venue); };
+  document.getElementById('det-chat').onclick = function(){ openWA(p.wa, p.name); };
+  document.getElementById('det-edit').onclick = function(){ closeDetail(); openEditModal(p.id); };
+  document.getElementById('modal-detail').classList.add('open');
+}
+function closeDetail() { document.getElementById('modal-detail').classList.remove('open'); }
 
 function openBook(name,wa,venue){
   bkPartner=name; bkWa=wa;
