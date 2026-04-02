@@ -521,10 +521,10 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
           </div>
           <div class="fg"><label>Area * (multi-select)</label>
             <div class="cbg" id="cgar">
-              <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('cgar','cgvn','venue-section',null),10)"><input type="checkbox" value="PIK"> PIK</label>
-              <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('cgar','cgvn','venue-section',null),10)"><input type="checkbox" value="Pluit"> Pluit</label>
-              <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('cgar','cgvn','venue-section',null),10)"><input type="checkbox" value="Puri"> Puri</label>
-              <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('cgar','cgvn','venue-section',null),10)"><input type="checkbox" value="Central Park"> Central Park</label>
+              <label class="cbl" onclick="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"><input type="checkbox" value="PIK"> PIK</label>
+              <label class="cbl" onclick="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"><input type="checkbox" value="Pluit"> Pluit</label>
+              <label class="cbl" onclick="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"><input type="checkbox" value="Puri"> Puri</label>
+              <label class="cbl" onclick="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"><input type="checkbox" value="Central Park"> Central Park</label>
             </div>
           </div>
         </div>
@@ -655,10 +655,10 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
       </div>
       <div class="fg"><label>Area * (multi-select)</label>
         <div class="cbg" id="ev-area">
-          <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('ev-area','ev-venue','ev-venue-section',null),10)"><input type="checkbox" value="PIK"> PIK</label>
-          <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('ev-area','ev-venue','ev-venue-section',null),10)"><input type="checkbox" value="Pluit"> Pluit</label>
-          <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('ev-area','ev-venue','ev-venue-section',null),10)"><input type="checkbox" value="Puri"> Puri</label>
-          <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('ev-area','ev-venue','ev-venue-section',null),10)"><input type="checkbox" value="Central Park"> Central Park</label>
+          <label class="cbl" onclick="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"><input type="checkbox" value="PIK"> PIK</label>
+          <label class="cbl" onclick="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"><input type="checkbox" value="Pluit"> Pluit</label>
+          <label class="cbl" onclick="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"><input type="checkbox" value="Puri"> Puri</label>
+          <label class="cbl" onclick="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"><input type="checkbox" value="Central Park"> Central Park</label>
         </div>
       </div>
       <div class="fg" id="ev-venue-section" style="display:none">
@@ -781,7 +781,7 @@ function setArea(el,a){
   el.classList.add('on'); curArea=a; renderCards();
 }
 
-function toggleCB(l){ setTimeout(()=>{ l.classList.toggle('on', l.querySelector('input').checked); },0); }
+function toggleCB(l){ const inp = l.querySelector('input'); inp.checked = !inp.checked; l.classList.toggle('on', inp.checked); }
 
 function openWA(num,name,msg){
   const t = msg || `Hi ${name}! I found your profile on TennisMatch Jakarta and would love to arrange a session!`;
@@ -914,11 +914,11 @@ async function submitForm(){
   const wa=document.getElementById('fw').value.trim().replace(/\D/g,'');
   if(!name){showToast('Please enter your nickname 📝');return;}
   if(!wa||wa.length<8){showToast('Please enter a valid WhatsApp number 📱');return;}
-  const types=[...document.querySelectorAll('#cgt .on input')].map(i=>i.value);
-  const times=[...document.querySelectorAll('#cgtm .on input')].map(i=>i.value);
+  const types=[...document.querySelectorAll('#cgt input:checked')].map(i=>i.value);
+  const times=[...document.querySelectorAll('#cgtm input:checked')].map(i=>i.value);
   if(!types.length){showToast('Please select at least one play style');return;}
-  const areas=[...document.querySelectorAll('#cgar .on input')].map(i=>i.value);
-  const venues=[...document.querySelectorAll('#cgvn .on input')].map(i=>i.value);
+  const areas=[...document.querySelectorAll('#cgar input:checked')].map(i=>i.value);
+  const venues=[...document.querySelectorAll('#cgvn input:checked')].map(i=>i.value);
   if(!areas.length){showToast('Please select at least one area');return;}
   if(!venues.length){showToast('Please select at least one venue');return;}
   const record = {
