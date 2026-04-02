@@ -442,12 +442,12 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 
   <!-- BROWSE -->
   <div class="panel active" id="panel-browse">
-    <div class="area-row">
-      <span class="apill on" onclick="setArea(this,'')">All</span>
-      <span class="apill" onclick="setArea(this,'PIK')">PIK</span>
-      <span class="apill" onclick="setArea(this,'Pluit')">Pluit</span>
-      <span class="apill" onclick="setArea(this,'Puri')">Puri</span>
-      <span class="apill" onclick="setArea(this,'Central Park')">C.Park</span>
+    <div class="area-row" id="area-filter">
+      <span class="apill on" onclick="toggleArea(this,'')">All</span>
+      <span class="apill" onclick="toggleArea(this,'PIK')">PIK</span>
+      <span class="apill" onclick="toggleArea(this,'Pluit')">Pluit</span>
+      <span class="apill" onclick="toggleArea(this,'Puri')">Puri</span>
+      <span class="apill" onclick="toggleArea(this,'Central Park')">C.Park</span>
     </div>
     <div class="filter-row">
       <select onchange="renderCards()" id="fl">
@@ -465,25 +465,10 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
         <option value="Rally">Rally / Hit</option>
         <option value="Doubles">Doubles</option>
       </select>
-      <select onchange="renderCards()" id="fv">
-        <option value="">All Venues</option>
-        <optgroup label="── PIK">
-          <option>Urban Racquet Club</option>
-        </optgroup>
-        <optgroup label="── Pluit">
-          <option>Olympus Prime Sports Center</option>
-          <option>Homeground Signature Pluit</option>
-          <option>Batavia Sports Club</option>
-        </optgroup>
-        <optgroup label="── Puri">
-          <option>House of Tennis Kedoya</option>
-          <option>Neo Tennis Arena</option>
-        </optgroup>
-        <optgroup label="── Central Park">
-          <option>The ACE Court Slipi</option>
-          <option>Vlocity Arena</option>
-        </optgroup>
-      </select>
+      <span class="apill on" onclick="toggleVenueFilter(this,'')">All Venues</span>
+      </div>
+      <div class="area-row" id="venue-filter-row" style="margin-bottom:22px;display:none"></div>
+      <div style="display:none"><select id="fv"><option value=""></option></select>
     </div>
     <div class="grid" id="cards"></div>
   </div>
@@ -521,10 +506,10 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
           </div>
           <div class="fg"><label>Area * (multi-select)</label>
             <div class="cbg" id="cgar">
-              <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('cgar','cgvn','venue-section',null),10)"><input type="checkbox" value="PIK"> PIK</label>
-              <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('cgar','cgvn','venue-section',null),10)"><input type="checkbox" value="Pluit"> Pluit</label>
-              <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('cgar','cgvn','venue-section',null),10)"><input type="checkbox" value="Puri"> Puri</label>
-              <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('cgar','cgvn','venue-section',null),10)"><input type="checkbox" value="Central Park"> Central Park</label>
+              <label class="cbl"><input type="checkbox" value="PIK" onchange="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"> PIK</label>
+              <label class="cbl"><input type="checkbox" value="Pluit" onchange="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"> Pluit</label>
+              <label class="cbl"><input type="checkbox" value="Puri" onchange="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"> Puri</label>
+              <label class="cbl"><input type="checkbox" value="Central Park" onchange="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"> Central Park</label>
             </div>
           </div>
         </div>
@@ -536,18 +521,18 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 
         <div class="fg"><label>Play Style * (multi-select)</label>
           <div class="cbg" id="cgt">
-            <label class="cbl on" onclick="toggleCB(this)"><input type="checkbox" value="Singles" checked> Singles</label>
-            <label class="cbl on" onclick="toggleCB(this)"><input type="checkbox" value="Rally" checked> Rally / Hit</label>
-            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Doubles"> Doubles</label>
+            <label class="cbl on"><input type="checkbox" value="Singles" checked onchange="toggleCB(this)"> Singles</label>
+            <label class="cbl on"><input type="checkbox" value="Rally" checked onchange="toggleCB(this)"> Rally / Hit</label>
+            <label class="cbl"><input type="checkbox" value="Doubles" onchange="toggleCB(this)"> Doubles</label>
           </div>
         </div>
 
         <div class="fg"><label>Available Times</label>
           <div class="cbg" id="cgtm">
-            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Weekday AM"> Weekday AM</label>
-            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Weekday PM"> Weekday PM</label>
-            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Weekend"> Weekend</label>
-            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Holiday"> Holiday</label>
+            <label class="cbl"><input type="checkbox" value="Weekday AM" onchange="toggleCB(this)"> Weekday AM</label>
+            <label class="cbl"><input type="checkbox" value="Weekday PM" onchange="toggleCB(this)"> Weekday PM</label>
+            <label class="cbl"><input type="checkbox" value="Weekend" onchange="toggleCB(this)"> Weekend</label>
+            <label class="cbl"><input type="checkbox" value="Holiday" onchange="toggleCB(this)"> Holiday</label>
           </div>
         </div>
 
@@ -655,10 +640,10 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
       </div>
       <div class="fg"><label>Area * (multi-select)</label>
         <div class="cbg" id="ev-area">
-          <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('ev-area','ev-venue','ev-venue-section',null),10)"><input type="checkbox" value="PIK"> PIK</label>
-          <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('ev-area','ev-venue','ev-venue-section',null),10)"><input type="checkbox" value="Pluit"> Pluit</label>
-          <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('ev-area','ev-venue','ev-venue-section',null),10)"><input type="checkbox" value="Puri"> Puri</label>
-          <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('ev-area','ev-venue','ev-venue-section',null),10)"><input type="checkbox" value="Central Park"> Central Park</label>
+          <label class="cbl"><input type="checkbox" value="PIK" onchange="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"> PIK</label>
+          <label class="cbl"><input type="checkbox" value="Pluit" onchange="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"> Pluit</label>
+          <label class="cbl"><input type="checkbox" value="Puri" onchange="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"> Puri</label>
+          <label class="cbl"><input type="checkbox" value="Central Park" onchange="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"> Central Park</label>
         </div>
       </div>
       <div class="fg" id="ev-venue-section" style="display:none">
@@ -667,17 +652,17 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
       </div>
       <div class="fg"><label>Play Style *</label>
         <div class="cbg" id="ev-types">
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Singles"> Singles</label>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Rally"> Rally / Hit</label>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Doubles"> Doubles</label>
+          <label class="cbl"><input type="checkbox" value="Singles" onchange="toggleCB(this)"> Singles</label>
+          <label class="cbl"><input type="checkbox" value="Rally" onchange="toggleCB(this)"> Rally / Hit</label>
+          <label class="cbl"><input type="checkbox" value="Doubles" onchange="toggleCB(this)"> Doubles</label>
         </div>
       </div>
       <div class="fg"><label>Available Times</label>
         <div class="cbg" id="ev-times">
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Weekday AM"> Weekday AM</label>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Weekday PM"> Weekday PM</label>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Weekend"> Weekend</label>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Holiday"> Holiday</label>
+          <label class="cbl"><input type="checkbox" value="Weekday AM" onchange="toggleCB(this)"> Weekday AM</label>
+          <label class="cbl"><input type="checkbox" value="Weekday PM" onchange="toggleCB(this)"> Weekday PM</label>
+          <label class="cbl"><input type="checkbox" value="Weekend" onchange="toggleCB(this)"> Weekend</label>
+          <label class="cbl"><input type="checkbox" value="Holiday" onchange="toggleCB(this)"> Holiday</label>
         </div>
       </div>
       <div class="fg"><label>About You</label>
@@ -766,7 +751,7 @@ async function loadPartners() {
   renderCards();
 }
 
-let curArea='', bkPartner='', bkWa='';
+let bkPartner='', bkWa='';
 
 function switchTab(t){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
@@ -776,17 +761,86 @@ function switchTab(t){
   if(t==='schedule') renderSched();
 }
 
-function setArea(el,a){
-  document.querySelectorAll('.apill').forEach(p=>p.classList.remove('on'));
-  el.classList.add('on'); curArea=a; renderCards();
+let selectedAreas = [];
+let selectedVenues = [];
+
+function toggleArea(el, area) {
+  if (!area) {
+    // "All" clicked - clear selections
+    selectedAreas = [];
+    document.querySelectorAll('#area-filter .apill').forEach(p => p.classList.remove('on'));
+    el.classList.add('on');
+  } else {
+    // Remove "All" highlight
+    document.querySelector('#area-filter .apill').classList.remove('on');
+    if (selectedAreas.includes(area)) {
+      selectedAreas = selectedAreas.filter(a => a !== area);
+      el.classList.remove('on');
+    } else {
+      selectedAreas.push(area);
+      el.classList.add('on');
+    }
+    // If nothing selected, re-highlight "All"
+    if (!selectedAreas.length) {
+      document.querySelector('#area-filter .apill').classList.add('on');
+    }
+  }
+  updateBrowseVenues();
+  renderCards();
 }
 
-function toggleCB(l){
-  const inp = l.querySelector('input');
-  // Let browser handle the checked state naturally, just sync the CSS class
-  setTimeout(() => {
-    l.classList.toggle('on', inp.checked);
-  }, 0);
+function toggleVenueFilter(el, venue) {
+  if (!venue) {
+    selectedVenues = [];
+    document.querySelectorAll('#venue-filter-row .apill, .filter-row .apill').forEach(p => p.classList.remove('on'));
+    el.classList.add('on');
+  } else {
+    // Remove "All Venues" highlight
+    document.querySelector('.filter-row .apill').classList.remove('on');
+    if (selectedVenues.includes(venue)) {
+      selectedVenues = selectedVenues.filter(v => v !== venue);
+      el.classList.remove('on');
+    } else {
+      selectedVenues.push(venue);
+      el.classList.add('on');
+    }
+    if (!selectedVenues.length) {
+      document.querySelector('.filter-row .apill').classList.add('on');
+    }
+  }
+  renderCards();
+}
+
+function updateBrowseVenues() {
+  const row = document.getElementById('venue-filter-row');
+  if (!selectedAreas.length) {
+    row.style.display = 'none';
+    selectedVenues = [];
+    document.querySelector('.filter-row .apill').classList.add('on');
+    return;
+  }
+  row.style.display = 'flex';
+  let html = '';
+  selectedAreas.forEach(area => {
+    const venues = VENUE_MAP[area] || [];
+    venues.forEach(v => {
+      const isOn = selectedVenues.includes(v);
+      const escaped = v.replace(/'/g, "\\'");
+      html += '<span class="apill' + (isOn ? ' on' : '') + '" onclick="toggleVenueFilter(this,\'' + escaped + '\')">' + v + '</span>';
+    });
+  });
+  row.innerHTML = html;
+}
+
+function setArea(el,a){
+  // Legacy compatibility
+  toggleArea(el, a);
+}
+
+function toggleCB(inp){
+  // Called from input's onchange - inp IS the input element
+  const label = inp.closest('label') || inp.parentElement;
+  label.classList.toggle('on', inp.checked);
 }
 
 function openWA(num,name,msg){
@@ -811,13 +865,16 @@ function renderCards(){
   const tf = document.getElementById('ft').value;
   const vf = document.getElementById('fv').value;
   let list = partners.filter(p=>{
-    if(curArea) {
+    if(selectedAreas.length) {
       const areaList = p.area === 'All' ? [] : (p.area||'').split(', ');
-      if(p.area !== 'All' && !areaList.includes(curArea)) return false;
+      if(p.area !== 'All' && !selectedAreas.some(a => areaList.includes(a))) return false;
     }
     if(lf && p.level !== lf) return false;
     if(tf && !p.types.includes(tf)) return false;
-    if(vf && !(p.venue||'').split(', ').includes(vf)) return false;
+    if(selectedVenues.length) {
+      const venueList = (p.venue||'').split(', ');
+      if(!selectedVenues.some(v => venueList.includes(v))) return false;
+    }
     return true;
   });
   const el = document.getElementById('cards');
@@ -980,55 +1037,7 @@ function confirmMe() {
   }
 }
 
-function openEditModal(id) {
-  editId = id;
-  document.getElementById('me-wa').value = '';
-  document.getElementById('modal-me').classList.add('open');
-}
 
-function prefillAndOpenEdit() {
-  const p = partners.find(x => String(x.id) === String(editId));
-  if (!p) { showToast('Profile not found'); return; }
-
-  // Basic fields
-  document.getElementById('ev-name').value = p.name || '';
-  document.getElementById('ev-gender').value = p.gender || 'Female';
-  document.getElementById('ev-level').value = p.level || '2.0';
-  document.getElementById('ev-note').value = (p.note === '—' ? '' : p.note) || '';
-
-  // Areas
-  const areas = (p.area || '').split(', ').map(a => a.trim()).filter(Boolean);
-  document.querySelectorAll('#ev-area .cbl').forEach(l => {
-    const v = l.querySelector('input').value;
-    const on = areas.includes(v);
-    l.classList.toggle('on', on);
-    l.querySelector('input').checked = on;
-  });
-
-  // Venues — call after areas are set, pass preselected venues
-  const venues = (p.venue || '').split(', ').map(v => v.trim()).filter(Boolean);
-  updateVenueOptions('ev-area', 'ev-venue', 'ev-venue-section', venues);
-
-  // Types
-  const types = Array.isArray(p.types) ? p.types : (p.types || '').split(',').map(t=>t.trim());
-  document.querySelectorAll('#ev-types .cbl').forEach(l => {
-    const v = l.querySelector('input').value;
-    const on = types.includes(v);
-    l.classList.toggle('on', on);
-    l.querySelector('input').checked = on;
-  });
-
-  // Times
-  const times = Array.isArray(p.times) ? p.times : (p.times || '').split(',').map(t=>t.trim());
-  document.querySelectorAll('#ev-times .cbl').forEach(l => {
-    const v = l.querySelector('input').value;
-    const on = times.includes(v);
-    l.classList.toggle('on', on);
-    l.querySelector('input').checked = on;
-  });
-
-  document.getElementById('modal-edit').classList.add('open');
-}
 
 
 function closeEditModal() {
@@ -1136,10 +1145,10 @@ function updateVenueOptions(areaGroupId, venueGroupId, venueSectionId, preselect
   document.querySelectorAll('#' + areaGroupId + ' input').forEach(i => {
     if (i.checked) selectedAreas.push(i.value);
   });
-  
+
   const venueEl = document.getElementById(venueGroupId);
   const sectionEl = document.getElementById(venueSectionId);
-  
+
   if (!selectedAreas.length) {
     venueEl.innerHTML = '';
     sectionEl.style.display = 'none';
@@ -1147,7 +1156,7 @@ function updateVenueOptions(areaGroupId, venueGroupId, venueSectionId, preselect
   }
   sectionEl.style.display = 'block';
 
-  // Save currently checked venues before regenerating
+  // Save currently checked venues
   const alreadyChecked = [];
   venueEl.querySelectorAll('input').forEach(i => {
     if (i.checked) alreadyChecked.push(i.value);
@@ -1160,7 +1169,7 @@ function updateVenueOptions(areaGroupId, venueGroupId, venueSectionId, preselect
       html += '<div style="width:100%;font-size:0.7rem;color:var(--muted);margin:' + (html?'8px':'0') + ' 0 4px;font-weight:600">' + area + '</div>';
       venues.forEach(v => {
         const isOn = alreadyChecked.includes(v) || (preselected && preselected.includes(v));
-        html += '<label class="cbl' + (isOn ? ' on' : '') + '" onclick="toggleCB(this)"><input type="checkbox" value="' + v + '"' + (isOn ? ' checked' : '') + '> ' + v + '</label>';
+        html += '<label class="cbl' + (isOn ? ' on' : '') + '"><input type="checkbox" value="' + v + '"' + (isOn ? ' checked' : '') + ' onchange="toggleCB(this)"> ' + v + '</label>';
       });
     }
   });
