@@ -521,10 +521,10 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
           </div>
           <div class="fg"><label>Area * (multi-select)</label>
             <div class="cbg" id="cgar">
-              <label class="cbl" onclick="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"><input type="checkbox" value="PIK"> PIK</label>
-              <label class="cbl" onclick="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"><input type="checkbox" value="Pluit"> Pluit</label>
-              <label class="cbl" onclick="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"><input type="checkbox" value="Puri"> Puri</label>
-              <label class="cbl" onclick="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"><input type="checkbox" value="Central Park"> Central Park</label>
+              <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('cgar','cgvn','venue-section',null),10)"><input type="checkbox" value="PIK"> PIK</label>
+              <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('cgar','cgvn','venue-section',null),10)"><input type="checkbox" value="Pluit"> Pluit</label>
+              <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('cgar','cgvn','venue-section',null),10)"><input type="checkbox" value="Puri"> Puri</label>
+              <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('cgar','cgvn','venue-section',null),10)"><input type="checkbox" value="Central Park"> Central Park</label>
             </div>
           </div>
         </div>
@@ -655,10 +655,10 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
       </div>
       <div class="fg"><label>Area * (multi-select)</label>
         <div class="cbg" id="ev-area">
-          <label class="cbl" onclick="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"><input type="checkbox" value="PIK"> PIK</label>
-          <label class="cbl" onclick="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"><input type="checkbox" value="Pluit"> Pluit</label>
-          <label class="cbl" onclick="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"><input type="checkbox" value="Puri"> Puri</label>
-          <label class="cbl" onclick="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"><input type="checkbox" value="Central Park"> Central Park</label>
+          <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('ev-area','ev-venue','ev-venue-section',null),10)"><input type="checkbox" value="PIK"> PIK</label>
+          <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('ev-area','ev-venue','ev-venue-section',null),10)"><input type="checkbox" value="Pluit"> Pluit</label>
+          <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('ev-area','ev-venue','ev-venue-section',null),10)"><input type="checkbox" value="Puri"> Puri</label>
+          <label class="cbl" onclick="toggleCB(this);setTimeout(()=>updateVenueOptions('ev-area','ev-venue','ev-venue-section',null),10)"><input type="checkbox" value="Central Park"> Central Park</label>
         </div>
       </div>
       <div class="fg" id="ev-venue-section" style="display:none">
@@ -781,7 +781,13 @@ function setArea(el,a){
   el.classList.add('on'); curArea=a; renderCards();
 }
 
-function toggleCB(l){ const inp = l.querySelector('input'); inp.checked = !inp.checked; l.classList.toggle('on', inp.checked); }
+function toggleCB(l){
+  const inp = l.querySelector('input');
+  // Let browser handle the checked state naturally, just sync the CSS class
+  setTimeout(() => {
+    l.classList.toggle('on', inp.checked);
+  }, 0);
+}
 
 function openWA(num,name,msg){
   const t = msg || `Hi ${name}! I found your profile on TennisMatch Jakarta and would love to arrange a session!`;
@@ -917,8 +923,10 @@ async function submitForm(){
   const types=[...document.querySelectorAll('#cgt input:checked')].map(i=>i.value);
   const times=[...document.querySelectorAll('#cgtm input:checked')].map(i=>i.value);
   if(!types.length){showToast('Please select at least one play style');return;}
-  const areas=[...document.querySelectorAll('#cgar input:checked')].map(i=>i.value);
-  const venues=[...document.querySelectorAll('#cgvn input:checked')].map(i=>i.value);
+  const areas = [];
+  document.querySelectorAll('#cgar input').forEach(i => { if(i.checked) areas.push(i.value); });
+  const venues = [];
+  document.querySelectorAll('#cgvn input').forEach(i => { if(i.checked) venues.push(i.value); });
   if(!areas.length){showToast('Please select at least one area');return;}
   if(!venues.length){showToast('Please select at least one venue');return;}
   const record = {
@@ -1070,10 +1078,14 @@ async function saveEdit() {
   const name = document.getElementById('ev-name').value.trim();
   if (!name) { showToast('Please enter your nickname'); return; }
 
-  const areas = [...document.querySelectorAll('#ev-area input:checked')].map(i => i.value);
-  const venues = [...document.querySelectorAll('#ev-venue input:checked')].map(i => i.value);
-  const types = [...document.querySelectorAll('#ev-types input:checked')].map(i => i.value);
-  const times = [...document.querySelectorAll('#ev-times input:checked')].map(i => i.value);
+  const areas = [];
+  document.querySelectorAll('#ev-area input').forEach(i => { if(i.checked) areas.push(i.value); });
+  const venues = [];
+  document.querySelectorAll('#ev-venue input').forEach(i => { if(i.checked) venues.push(i.value); });
+  const types = [];
+  document.querySelectorAll('#ev-types input').forEach(i => { if(i.checked) types.push(i.value); });
+  const times = [];
+  document.querySelectorAll('#ev-times input').forEach(i => { if(i.checked) times.push(i.value); });
 
   if (!areas.length) { showToast('Please select at least one area'); return; }
   if (!venues.length) { showToast('Please select at least one venue'); return; }
@@ -1120,9 +1132,14 @@ const VENUE_MAP = {
 };
 
 function updateVenueOptions(areaGroupId, venueGroupId, venueSectionId, preselected) {
-  const selectedAreas = [...document.querySelectorAll('#' + areaGroupId + ' input:checked')].map(i => i.value);
+  const selectedAreas = [];
+  document.querySelectorAll('#' + areaGroupId + ' input').forEach(i => {
+    if (i.checked) selectedAreas.push(i.value);
+  });
+  
   const venueEl = document.getElementById(venueGroupId);
   const sectionEl = document.getElementById(venueSectionId);
+  
   if (!selectedAreas.length) {
     venueEl.innerHTML = '';
     sectionEl.style.display = 'none';
@@ -1130,8 +1147,11 @@ function updateVenueOptions(areaGroupId, venueGroupId, venueSectionId, preselect
   }
   sectionEl.style.display = 'block';
 
-  // Remember currently checked venues before regenerating
-  const alreadyChecked = [...document.querySelectorAll('#' + venueGroupId + ' input:checked')].map(i => i.value);
+  // Save currently checked venues before regenerating
+  const alreadyChecked = [];
+  venueEl.querySelectorAll('input').forEach(i => {
+    if (i.checked) alreadyChecked.push(i.value);
+  });
 
   let html = '';
   selectedAreas.forEach(area => {
@@ -1139,7 +1159,6 @@ function updateVenueOptions(areaGroupId, venueGroupId, venueSectionId, preselect
     if (venues.length) {
       html += '<div style="width:100%;font-size:0.7rem;color:var(--muted);margin:' + (html?'8px':'0') + ' 0 4px;font-weight:600">' + area + '</div>';
       venues.forEach(v => {
-        // Keep checked if: was previously checked, OR is in preselected list
         const isOn = alreadyChecked.includes(v) || (preselected && preselected.includes(v));
         html += '<label class="cbl' + (isOn ? ' on' : '') + '" onclick="toggleCB(this)"><input type="checkbox" value="' + v + '"' + (isOn ? ' checked' : '') + '> ' + v + '</label>';
       });
@@ -1149,17 +1168,3 @@ function updateVenueOptions(areaGroupId, venueGroupId, venueSectionId, preselect
 }
 
 
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2800);
-}
-document.getElementById('modal').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
-document.getElementById('modal-edit').addEventListener('click',e=>{if(e.target===e.currentTarget)closeEditModal();});
-document.getElementById('modal-me').addEventListener('click',e=>{if(e.target===e.currentTarget)closeMeModal();});
-
-// Load partners on init
-loadPartners();
-</script>
-</body>
-</html>
