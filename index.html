@@ -447,7 +447,7 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
       <span class="apill" onclick="setArea(this,'PIK')">PIK</span>
       <span class="apill" onclick="setArea(this,'Pluit')">Pluit</span>
       <span class="apill" onclick="setArea(this,'Puri')">Puri</span>
-      <span class="apill" onclick="setArea(this,'Central Park')">Central Park</span>
+      <span class="apill" onclick="setArea(this,'Central Park')">C.Park</span>
     </div>
     <div class="filter-row">
       <select onchange="renderCards()" id="fl">
@@ -979,15 +979,16 @@ function openEditModal(id) {
 }
 
 function prefillAndOpenEdit() {
-  const p = partners.find(x => x.id == editId);
+  const p = partners.find(x => String(x.id) === String(editId));
   if (!p) { showToast('Profile not found'); return; }
 
-  document.getElementById('ev-name').value = p.name;
-  document.getElementById('ev-gender').value = p.gender;
-  document.getElementById('ev-level').value = p.level;
-  document.getElementById('ev-note').value = p.note === '—' ? '' : (p.note || '');
+  // Basic fields
+  document.getElementById('ev-name').value = p.name || '';
+  document.getElementById('ev-gender').value = p.gender || 'Female';
+  document.getElementById('ev-level').value = p.level || '2.0';
+  document.getElementById('ev-note').value = (p.note === '—' ? '' : p.note) || '';
 
-  // Pre-fill areas
+  // Areas
   const areas = (p.area || '').split(', ').map(a => a.trim()).filter(Boolean);
   document.querySelectorAll('#ev-area .cbl').forEach(l => {
     const v = l.querySelector('input').value;
@@ -996,12 +997,12 @@ function prefillAndOpenEdit() {
     l.querySelector('input').checked = on;
   });
 
-  // Pre-fill venues — must run AFTER areas are set
+  // Venues — call after areas are set, pass preselected venues
   const venues = (p.venue || '').split(', ').map(v => v.trim()).filter(Boolean);
   updateVenueOptions('ev-area', 'ev-venue', 'ev-venue-section', venues);
 
-  // Pre-fill types
-  const types = Array.isArray(p.types) ? p.types : [];
+  // Types
+  const types = Array.isArray(p.types) ? p.types : (p.types || '').split(',').map(t=>t.trim());
   document.querySelectorAll('#ev-types .cbl').forEach(l => {
     const v = l.querySelector('input').value;
     const on = types.includes(v);
@@ -1009,8 +1010,8 @@ function prefillAndOpenEdit() {
     l.querySelector('input').checked = on;
   });
 
-  // Pre-fill times
-  const times = Array.isArray(p.times) ? p.times : [];
+  // Times
+  const times = Array.isArray(p.times) ? p.times : (p.times || '').split(',').map(t=>t.trim());
   document.querySelectorAll('#ev-times .cbl').forEach(l => {
     const v = l.querySelector('input').value;
     const on = times.includes(v);
@@ -1020,6 +1021,7 @@ function prefillAndOpenEdit() {
 
   document.getElementById('modal-edit').classList.add('open');
 }
+
 
 function closeEditModal() {
   document.getElementById('modal-edit').classList.remove('open');
@@ -1067,29 +1069,38 @@ function prefillAndOpenEdit() {
 async function saveEdit() {
   const name = document.getElementById('ev-name').value.trim();
   if (!name) { showToast('Please enter your nickname'); return; }
-  const areas = [...document.querySelectorAll('#ev-area input:checked')].map(i=>i.value);
-  const venues = [...document.querySelectorAll('#ev-venue input:checked')].map(i=>i.value);
-  const types = [...document.querySelectorAll('#ev-types input:checked')].map(i=>i.value);
-  const times = [...document.querySelectorAll('#ev-times input:checked')].map(i=>i.value);
+
+  const areas = [...document.querySelectorAll('#ev-area input:checked')].map(i => i.value);
+  const venues = [...document.querySelectorAll('#ev-venue input:checked')].map(i => i.value);
+  const types = [...document.querySelectorAll('#ev-types input:checked')].map(i => i.value);
+  const times = [...document.querySelectorAll('#ev-times input:checked')].map(i => i.value);
+
   if (!areas.length) { showToast('Please select at least one area'); return; }
   if (!venues.length) { showToast('Please select at least one venue'); return; }
   if (!types.length) { showToast('Please select a play style'); return; }
+
   const updates = {
     name,
     gender: document.getElementById('ev-gender').value,
     level: document.getElementById('ev-level').value,
     area: areas.join(', '),
     venue: venues.join(', '),
-    types, times,
+    types,
+    times,
     note: document.getElementById('ev-note').value.trim() || '—',
   };
-  const { error } = await supa.from('partners').update(updates).eq('id', editId);
-  if (error) { showToast('Error saving changes 😢'); console.error(error); return; }
-  showToast('✅ Profile updated!');
+
+  console.log('Saving editId:', editId, 'updates:', updates);
+  const { data, error } = await supa.from('partners').update(updates).eq('id', editId).select();
+  console.log('Save result:', data, error);
+
+  if (error) { showToast('Error: ' + error.message); return; }
+  showToast('Profile updated!');
   closeEditModal();
   editId = null;
   await loadPartners();
 }
+
 
 const VENUE_MAP = {
   'PIK': ['Urban Racquet Club'],
@@ -1112,15 +1123,16 @@ function updateVenueOptions(areaGroupId, venueGroupId, venueSectionId, preselect
   selectedAreas.forEach(area => {
     const venues = VENUE_MAP[area] || [];
     if (venues.length) {
-      html += `<div style="width:100%;font-size:0.7rem;color:var(--muted);margin:${html?'6px':'0'} 0 4px;font-weight:600">${area}</div>`;
+      html += '<div style="width:100%;font-size:0.7rem;color:var(--muted);margin:' + (html?'8px':'0') + ' 0 4px;font-weight:600">' + area + '</div>';
       venues.forEach(v => {
         const isOn = preselected && preselected.includes(v);
-        html += `<label class="cbl${isOn?' on':''}" onclick="toggleCB(this)"><input type="checkbox" value="${v}"${isOn?' checked':''}> ${v}</label>`;
+        html += '<label class="cbl' + (isOn ? ' on' : '') + '" onclick="toggleCB(this)"><input type="checkbox" value="' + v + '"' + (isOn ? ' checked' : '') + '> ' + v + '</label>';
       });
     }
   });
   venueEl.innerHTML = html;
 }
+
 
 function showToast(msg){
   const t=document.getElementById('toast');
