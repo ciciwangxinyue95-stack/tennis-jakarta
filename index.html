@@ -832,7 +832,7 @@ function renderCards(){
       <div class="badges">
         <span class="badge b-lv">NTRP ${p.level}</span>
         ${p.types.map(t=>`<span class="badge b-tp">${t}</span>`).join('')}
-        ${(p.area === 'All' ? ['All Areas'] : (p.area||''}).split(', ')).map(a=>`<span class="badge b-ar">${a}</span>`).join('')}</span>`).join('')}
+        ${(p.area === 'All' ? ['All Areas'] : (p.area||'').split(', ')).map(a=>`<span class="badge b-ar">${a}</span>`).join('')}
       </div>
       <div class="venue-line">${(p.venue||'').split(', ').join(' · ')}</div>
       <div class="card-note">${p.note}</div>
