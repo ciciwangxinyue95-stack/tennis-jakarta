@@ -400,7 +400,7 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
       <button class="btn-join" onclick="switchTab('register')">
         <svg style="width:13px;height:13px;fill:white;vertical-align:middle;margin-right:4px" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Join
       </button>
-      <button class="btn-join" style="background:transparent;color:var(--green);border:1.5px solid var(--green-md)" onclick="openMyProfile()">
+      <button class="btn-join" style="background:transparent;color:var(--green);border:1.5px solid var(--green-md);display:none" id="btn-me" onclick="openMyProfile()">
         <svg style="width:13px;height:13px;fill:var(--green);vertical-align:middle;margin-right:4px" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>Me
       </button>
 
@@ -1041,6 +1041,8 @@ async function submitForm(){
   const { error } = await supa.from('partners').insert([record]);
   if(error){ showToast('Error saving profile 😢'); console.error(error); return; }
   showToast(`🎾 Profile live! Welcome, ${name}!`);
+  document.getElementById('btn-me').style.display = '';
+  try { localStorage.setItem('tm_wa', wa); } catch(e) {}
   document.getElementById('fn').value='';
   document.getElementById('fw').value='';
   document.getElementById('fnt').value='';
@@ -1255,6 +1257,7 @@ function showToast(msg) {
 
 // Init
 loadPartners();
+try { if (localStorage.getItem('tm_wa')) document.getElementById('btn-me').style.display = ''; } catch(e) {}
 </script>
 </body>
 </html>
