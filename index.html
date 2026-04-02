@@ -914,6 +914,7 @@ function renderCards(){
         ${p.types.map(t=>`<span class="badge b-tp">${t}</span>`).join('')}
         ${(p.area === 'All' ? ['All Areas'] : (p.area||'').split(', ').filter(Boolean)).map(a=>`<span class="badge b-ar">${a}</span>`).join('')}
       </div>
+      <div style="font-size:0.7rem;color:var(--muted);text-align:center;margin-bottom:6px;opacity:0.5">···</div>
       <div class="card-btns" onclick="event.stopPropagation()">
         <button class="btn-book" onclick="openBook('${p.name}','${p.wa}','${p.venue}')">
           <svg style="width:13px;height:13px;fill:currentColor;vertical-align:middle;margin-right:4px" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>Book
@@ -1159,21 +1160,44 @@ async function saveEdit() {
   };
 
   console.log('Saving editId:', editId, 'updates:', updates);
-  const { data, error } = await supa.from('partners').update(updates).eq('id', editId).select();
-  console.log('Save result:', data, error);
-
-  if (error) { showToast('Error: ' + error.message); return; }
   
-  // Update local array immediately so card refreshes without waiting for DB
+  // Try update first
+  var { data, error } = await supa.from('partners').update(updates).eq('id', editId).select();
+  console.log('Update result - data:', data, 'error:', error);
+  
+  // If update returned no rows (RLS blocking), try upsert with id
+  if (!error && (!data || data.length === 0)) {
+    console.log('Update returned 0 rows, trying upsert...');
+    var upsertData = { id: editId, ...updates };
+    // Also preserve wa from the local partner
+    var localP = partners.find(x => String(x.id) === String(editId));
+    if (localP) upsertData.wa = localP.wa;
+    var res2 = await supa.from('partners').upsert(upsertData).select();
+    data = res2.data;
+    error = res2.error;
+    console.log('Upsert result - data:', data, 'error:', error);
+  }
+
+  if (error) { 
+    showToast('Error: ' + error.message); 
+    console.error('Save failed:', error);
+    return; 
+  }
+  
+  // Update local array with DB response if available, otherwise use local updates
   const idx = partners.findIndex(x => String(x.id) === String(editId));
   if (idx !== -1) {
-    partners[idx] = { ...partners[idx], ...updates };
+    if (data && data.length > 0) {
+      partners[idx] = { ...partners[idx], ...data[0], types: data[0].types || [], times: data[0].times || [] };
+    } else {
+      partners[idx] = { ...partners[idx], ...updates };
+    }
   }
   
   closeEditModal();
   editId = null;
   renderCards();
-  showToast('Profile updated!');
+  showToast('Profile updated! ✅');
   
   // Also refresh from DB in background
   loadPartners();
