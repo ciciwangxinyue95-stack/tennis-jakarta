@@ -465,10 +465,11 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
         <option value="Rally">Rally / Hit</option>
         <option value="Doubles">Doubles</option>
       </select>
+      <select id="fv" style="display:none"><option value=""></option></select>
+    </div>
+    <div style="font-size:0.72rem;font-weight:600;color:var(--mid);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">Venues (multi-select)</div>
+    <div class="area-row" id="venue-filter-row">
       <span class="apill on" onclick="toggleVenueFilter(this,'')">All Venues</span>
-      </div>
-      <div class="area-row" id="venue-filter-row" style="margin-bottom:22px;display:none"></div>
-      <div style="display:none"><select id="fv"><option value=""></option></select>
     </div>
     <div class="grid" id="cards"></div>
   </div>
@@ -766,12 +767,10 @@ let selectedVenues = [];
 
 function toggleArea(el, area) {
   if (!area) {
-    // "All" clicked - clear selections
     selectedAreas = [];
     document.querySelectorAll('#area-filter .apill').forEach(p => p.classList.remove('on'));
     el.classList.add('on');
   } else {
-    // Remove "All" highlight
     document.querySelector('#area-filter .apill').classList.remove('on');
     if (selectedAreas.includes(area)) {
       selectedAreas = selectedAreas.filter(a => a !== area);
@@ -780,7 +779,6 @@ function toggleArea(el, area) {
       selectedAreas.push(area);
       el.classList.add('on');
     }
-    // If nothing selected, re-highlight "All"
     if (!selectedAreas.length) {
       document.querySelector('#area-filter .apill').classList.add('on');
     }
@@ -792,11 +790,11 @@ function toggleArea(el, area) {
 function toggleVenueFilter(el, venue) {
   if (!venue) {
     selectedVenues = [];
-    document.querySelectorAll('#venue-filter-row .apill, .filter-row .apill').forEach(p => p.classList.remove('on'));
+    document.querySelectorAll('#venue-filter-row .apill').forEach(p => p.classList.remove('on'));
     el.classList.add('on');
   } else {
-    // Remove "All Venues" highlight
-    document.querySelector('.filter-row .apill').classList.remove('on');
+    var allBtn = document.querySelector('#venue-filter-row .apill[onclick*="toggleVenueFilter(this,\'\')"]');
+    if (allBtn) allBtn.classList.remove('on');
     if (selectedVenues.includes(venue)) {
       selectedVenues = selectedVenues.filter(v => v !== venue);
       el.classList.remove('on');
@@ -805,35 +803,27 @@ function toggleVenueFilter(el, venue) {
       el.classList.add('on');
     }
     if (!selectedVenues.length) {
-      document.querySelector('.filter-row .apill').classList.add('on');
+      if (allBtn) allBtn.classList.add('on');
     }
   }
   renderCards();
 }
 
 function updateBrowseVenues() {
-  const row = document.getElementById('venue-filter-row');
-  if (!selectedAreas.length) {
-    row.style.display = 'none';
-    selectedVenues = [];
-    document.querySelector('.filter-row .apill').classList.add('on');
-    return;
-  }
-  row.style.display = 'flex';
-  let html = '';
-  selectedAreas.forEach(area => {
-    const venues = VENUE_MAP[area] || [];
-    venues.forEach(v => {
-      const isOn = selectedVenues.includes(v);
-      const escaped = v.replace(/'/g, "\\'");
-      html += '<span class="apill' + (isOn ? ' on' : '') + '" onclick="toggleVenueFilter(this,\'' + escaped + '\')">' + v + '</span>';
+  var row = document.getElementById('venue-filter-row');
+  selectedVenues = [];
+  var html = '<span class="apill on" onclick="toggleVenueFilter(this,\'\')">All Venues</span>';
+  var areas = selectedAreas.length ? selectedAreas : ['PIK','Pluit','Puri','Central Park'];
+  areas.forEach(function(area) {
+    var venues = VENUE_MAP[area] || [];
+    venues.forEach(function(v) {
+      html += '<span class="apill" onclick="toggleVenueFilter(this,&quot;' + v + '&quot;)">' + v + '</span>';
     });
   });
   row.innerHTML = html;
 }
 
 function setArea(el,a){
-  // Legacy compatibility
   toggleArea(el, a);
 }
 
@@ -1037,13 +1027,6 @@ function confirmMe() {
   }
 }
 
-
-
-
-function closeEditModal() {
-  document.getElementById('modal-edit').classList.remove('open');
-}
-
 function openEditModal(id) {
   editId = id;
   document.getElementById('me-wa').value = '';
@@ -1051,36 +1034,48 @@ function openEditModal(id) {
 }
 
 function prefillAndOpenEdit() {
-  const p = partners.find(x => x.id == editId);
-  if (!p) return;
-  document.getElementById('ev-name').value = p.name;
-  document.getElementById('ev-gender').value = p.gender;
-  document.getElementById('ev-level').value = p.level;
-  document.getElementById('ev-note').value = p.note === '—' ? '' : p.note;
-  const areas = (p.area || '').split(', ');
-  document.querySelectorAll('#ev-area .cbl').forEach(l => {
-    const v = l.querySelector('input').value;
-    const on = areas.includes(v);
-    l.classList.toggle('on', on);
-    l.querySelector('input').checked = on;
+  const p = partners.find(x => String(x.id) === String(editId));
+  if (!p) { showToast('Profile not found'); return; }
+
+  // Basic fields
+  document.getElementById('ev-name').value = p.name || '';
+  document.getElementById('ev-gender').value = p.gender || 'Female';
+  document.getElementById('ev-level').value = p.level || '2.0';
+  document.getElementById('ev-note').value = (p.note === '—' ? '' : p.note) || '';
+
+  // Areas
+  const areas = (p.area || '').split(', ').map(a => a.trim()).filter(Boolean);
+  document.querySelectorAll('#ev-area input').forEach(i => {
+    const on = areas.includes(i.value);
+    i.checked = on;
+    i.closest('label').classList.toggle('on', on);
   });
-  const venues = (p.venue || '').split(', ');
+
+  // Venues — call after areas are set, pass preselected venues
+  const venues = (p.venue || '').split(', ').map(v => v.trim()).filter(Boolean);
   updateVenueOptions('ev-area', 'ev-venue', 'ev-venue-section', venues);
-  const types = p.types || [];
-  document.querySelectorAll('#ev-types .cbl').forEach(l => {
-    const v = l.querySelector('input').value;
-    const on = types.includes(v);
-    l.classList.toggle('on', on);
-    l.querySelector('input').checked = on;
+
+  // Types
+  const types = Array.isArray(p.types) ? p.types : (p.types || '').split(',').map(t=>t.trim());
+  document.querySelectorAll('#ev-types input').forEach(i => {
+    const on = types.includes(i.value);
+    i.checked = on;
+    i.closest('label').classList.toggle('on', on);
   });
-  const times = p.times || [];
-  document.querySelectorAll('#ev-times .cbl').forEach(l => {
-    const v = l.querySelector('input').value;
-    const on = times.includes(v);
-    l.classList.toggle('on', on);
-    l.querySelector('input').checked = on;
+
+  const times = Array.isArray(p.times) ? p.times : (p.times || '').split(',').map(t=>t.trim());
+  document.querySelectorAll('#ev-times input').forEach(i => {
+    const on = times.includes(i.value);
+    i.checked = on;
+    i.closest('label').classList.toggle('on', on);
   });
+
   document.getElementById('modal-edit').classList.add('open');
+}
+
+
+function closeEditModal() {
+  document.getElementById('modal-edit').classList.remove('open');
 }
 
 async function saveEdit() {
@@ -1176,4 +1171,15 @@ function updateVenueOptions(areaGroupId, venueGroupId, venueSectionId, preselect
   venueEl.innerHTML = html;
 }
 
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2400);
+}
 
+// Init
+loadPartners();
+</script>
+</body>
+</html>
