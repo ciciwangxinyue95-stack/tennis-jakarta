@@ -1095,10 +1095,20 @@ async function saveEdit() {
   console.log('Save result:', data, error);
 
   if (error) { showToast('Error: ' + error.message); return; }
-  showToast('Profile updated!');
+  
+  // Update local array immediately so card refreshes without waiting for DB
+  const idx = partners.findIndex(x => String(x.id) === String(editId));
+  if (idx !== -1) {
+    partners[idx] = { ...partners[idx], ...updates };
+  }
+  
   closeEditModal();
   editId = null;
-  await loadPartners();
+  renderCards();
+  showToast('Profile updated!');
+  
+  // Also refresh from DB in background
+  loadPartners();
 }
 
 
@@ -1119,13 +1129,18 @@ function updateVenueOptions(areaGroupId, venueGroupId, venueSectionId, preselect
     return;
   }
   sectionEl.style.display = 'block';
+
+  // Remember currently checked venues before regenerating
+  const alreadyChecked = [...document.querySelectorAll('#' + venueGroupId + ' input:checked')].map(i => i.value);
+
   let html = '';
   selectedAreas.forEach(area => {
     const venues = VENUE_MAP[area] || [];
     if (venues.length) {
       html += '<div style="width:100%;font-size:0.7rem;color:var(--muted);margin:' + (html?'8px':'0') + ' 0 4px;font-weight:600">' + area + '</div>';
       venues.forEach(v => {
-        const isOn = preselected && preselected.includes(v);
+        // Keep checked if: was previously checked, OR is in preselected list
+        const isOn = alreadyChecked.includes(v) || (preselected && preselected.includes(v));
         html += '<label class="cbl' + (isOn ? ' on' : '') + '" onclick="toggleCB(this)"><input type="checkbox" value="' + v + '"' + (isOn ? ' checked' : '') + '> ' + v + '</label>';
       });
     }
