@@ -195,6 +195,13 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
   display: flex; align-items: center; gap: 5px; white-space: nowrap;
 }
 .btn-wac:hover { background: var(--wa); color: white; border-color: var(--wa); }
+.btn-edit {
+  background: var(--green-lt); color: var(--green);
+  border: 1.5px solid var(--green-md); padding: 9px 11px;
+  border-radius: 11px; cursor: pointer; transition: all 0.18s;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.btn-edit:hover { background: var(--green); color: white; border-color: var(--green); }
 .wsvg { width: 13px; height: 13px; fill: currentColor; flex-shrink: 0; }
 
 /* ── FORM ── */
@@ -243,7 +250,7 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 .how-item { display: flex; gap: 12px; margin-bottom: 16px; }
 .how-item:last-child { margin-bottom: 0; }
 .how-num {
-  width: 26px; height: 26px; border-radius: 50%;
+  width: 28px; height: 28px; border-radius: 50%;
   background: var(--green-lt); border: 1.5px solid var(--green-md);
   color: var(--green); font-size: 0.73rem; font-weight: 700;
   display: flex; align-items: center; justify-content: center;
@@ -384,8 +391,12 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
         <svg class="wsvg" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
         Contact Admin
       </button>
-      <button class="btn-join" onclick="switchTab('register')">+ Join</button>
-      <button class="btn-join" style="background:transparent;color:var(--green);border:1.5px solid var(--green-md)" onclick="openMyProfile()">Me</button>
+      <button class="btn-join" onclick="switchTab('register')">
+        <svg style="width:13px;height:13px;fill:white;vertical-align:middle;margin-right:4px" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>Join
+      </button>
+      <button class="btn-join" style="background:transparent;color:var(--green);border:1.5px solid var(--green-md)" onclick="openMyProfile()">
+        <svg style="width:13px;height:13px;fill:var(--green);vertical-align:middle;margin-right:4px" viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>Me
+      </button>
 
     </div>
   </div>
@@ -397,7 +408,9 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
       <div class="hero-text">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px">
           <h2 style="margin-bottom:0">Jakarta Tennis Partner Network</h2>
-          <button class="btn-share" onclick="shareApp()" style="flex-shrink:0">🔗 Share</button>
+          <button class="btn-share" onclick="shareApp()" style="flex-shrink:0">
+            <svg style="width:13px;height:13px;fill:currentColor;vertical-align:middle;margin-right:4px" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>Share
+          </button>
         </div>
         <p>Find your tennis partner in Jakarta — connect via WhatsApp instantly.</p>
         <div class="hero-tags">
@@ -413,9 +426,15 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 
 <div class="tabs-wrap">
   <div class="tabs">
-    <div class="tab active" id="tab-browse" onclick="switchTab('browse')">Find Partners</div>
-    <div class="tab" id="tab-register" onclick="switchTab('register')">Register</div>
-    <div class="tab" id="tab-schedule" onclick="switchTab('schedule')">My Sessions</div>
+    <div class="tab active" id="tab-browse" onclick="switchTab('browse')">
+      <svg style="width:13px;height:13px;fill:currentColor;vertical-align:middle;margin-right:5px" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>Find
+    </div>
+    <div class="tab" id="tab-register" onclick="switchTab('register')">
+      <svg style="width:13px;height:13px;fill:currentColor;vertical-align:middle;margin-right:5px" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>Register
+    </div>
+    <div class="tab" id="tab-schedule" onclick="switchTab('schedule')">
+      <svg style="width:13px;height:13px;fill:currentColor;vertical-align:middle;margin-right:5px" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zm-7-7h5v5h-5z"/></svg>Sessions
+    </div>
   </div>
 </div>
 
@@ -424,11 +443,11 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
   <!-- BROWSE -->
   <div class="panel active" id="panel-browse">
     <div class="area-row">
-      <span class="apill on" onclick="setArea(this,'')">All Areas</span>
-      <span class="apill" onclick="setArea(this,'PIK')">📍 PIK</span>
-      <span class="apill" onclick="setArea(this,'Pluit')">📍 Pluit</span>
-      <span class="apill" onclick="setArea(this,'Puri')">📍 Puri</span>
-      <span class="apill" onclick="setArea(this,'Central Park')">📍 Central Park</span>
+      <span class="apill on" onclick="setArea(this,'')">All</span>
+      <span class="apill" onclick="setArea(this,'PIK')">PIK</span>
+      <span class="apill" onclick="setArea(this,'Pluit')">Pluit</span>
+      <span class="apill" onclick="setArea(this,'Puri')">Puri</span>
+      <span class="apill" onclick="setArea(this,'Central Park')">Central Park</span>
     </div>
     <div class="filter-row">
       <select onchange="renderCards()" id="fl">
@@ -502,29 +521,17 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
           </div>
           <div class="fg"><label>Area * (multi-select)</label>
             <div class="cbg" id="cgar">
-              <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="PIK"> PIK</label>
-              <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Pluit"> Pluit</label>
-              <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Puri"> Puri</label>
-              <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Central Park"> Central Park</label>
+              <label class="cbl" onclick="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"><input type="checkbox" value="PIK"> PIK</label>
+              <label class="cbl" onclick="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"><input type="checkbox" value="Pluit"> Pluit</label>
+              <label class="cbl" onclick="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"><input type="checkbox" value="Puri"> Puri</label>
+              <label class="cbl" onclick="toggleCB(this);updateVenueOptions('cgar','cgvn','venue-section',null)"><input type="checkbox" value="Central Park"> Central Park</label>
             </div>
           </div>
         </div>
 
-        <div class="fg"><label>Preferred Venues * (multi-select)</label>
-          <div class="cbg" id="cgvn">
-            <div style="width:100%;font-size:0.7rem;color:var(--muted);margin-bottom:4px;font-weight:600">PIK</div>
-            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Urban Racquet Club"> Urban Racquet Club</label>
-            <div style="width:100%;font-size:0.7rem;color:var(--muted);margin:6px 0 4px;font-weight:600">Pluit</div>
-            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Olympus Prime Sports Center"> Olympus Prime</label>
-            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Homeground Signature Pluit"> Homeground Pluit</label>
-            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Batavia Sports Club"> Batavia Sports</label>
-            <div style="width:100%;font-size:0.7rem;color:var(--muted);margin:6px 0 4px;font-weight:600">Puri</div>
-            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="House of Tennis Kedoya"> House of Tennis</label>
-            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Neo Tennis Arena"> Neo Tennis Arena</label>
-            <div style="width:100%;font-size:0.7rem;color:var(--muted);margin:6px 0 4px;font-weight:600">Central Park</div>
-            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="The ACE Court Slipi"> The ACE Court</label>
-            <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Vlocity Arena"> Vlocity Arena</label>
-          </div>
+        <div class="fg" id="venue-section" style="display:none">
+          <label>Preferred Venues * (multi-select)</label>
+          <div class="cbg" id="cgvn"></div>
         </div>
 
         <div class="fg"><label>Play Style * (multi-select)</label>
@@ -548,30 +555,42 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
           <textarea id="fnt" placeholder="Your playing style, what you're looking for, court preferences..."></textarea>
         </div>
 
-        <button class="btn-sub" onclick="submitForm()">🎾 Publish My Profile</button>
+        <button class="btn-sub" onclick="submitForm()">
+          <svg style="width:14px;height:14px;fill:white;vertical-align:middle;margin-right:5px" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>Publish Profile
+        </button>
       </div>
 
       <div class="how-card">
         <h3>How it works</h3>
         <div class="how-item">
-          <div class="how-num">1</div>
-          <p><b>Register</b> — Add your level, area, venue &amp; play style. Your profile goes live instantly.</p>
+          <div class="how-num">
+            <svg style="width:13px;height:13px;fill:var(--green)" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+          </div>
+          <p><b>Register</b> — Add your level, area &amp; venues. Profile goes live instantly.</p>
         </div>
         <div class="how-item">
-          <div class="how-num">2</div>
-          <p><b>Browse &amp; filter</b> — Find partners by area (PIK / Pluit / Puri / Central Park), level, and type.</p>
+          <div class="how-num">
+            <svg style="width:13px;height:13px;fill:var(--green)" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+          </div>
+          <p><b>Browse</b> — Filter by area, level and type to find your match.</p>
         </div>
         <div class="how-item">
-          <div class="how-num">3</div>
-          <p><b>WhatsApp direct</b> — Tap the green button to message a partner instantly. No extra app needed.</p>
+          <div class="how-num">
+            <svg style="width:13px;height:13px;fill:var(--green)" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          </div>
+          <p><b>WhatsApp</b> — Tap the green button to connect instantly.</p>
         </div>
         <div class="how-item">
-          <div class="how-num">4</div>
-          <p><b>Book &amp; manage</b> — Schedule sessions in <em>My Sessions</em>. A WA confirmation is sent automatically.</p>
+          <div class="how-num">
+            <svg style="width:13px;height:13px;fill:var(--green)" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zm-7-7h5v5h-5z"/></svg>
+          </div>
+          <p><b>Book</b> — Schedule sessions and send WA confirmation automatically.</p>
         </div>
         <div class="how-item">
-          <div class="how-num">5</div>
-          <p><b>Share the page</b> — Tap <em>Share Page</em> to invite friends and grow the Jakarta tennis community!</p>
+          <div class="how-num">
+            <svg style="width:13px;height:13px;fill:var(--green)" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z"/></svg>
+          </div>
+          <p><b>Share</b> — Send the link to friends and grow the community!</p>
         </div>
       </div>
     </div>
@@ -580,11 +599,15 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
   <!-- SCHEDULE -->
   <div class="panel" id="panel-schedule">
     <div class="sched-sec">
-      <div class="sec-title">Upcoming Sessions</div>
+      <div class="sec-title">
+        <svg style="width:14px;height:14px;fill:var(--green);vertical-align:middle;margin-right:6px" viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>Upcoming
+      </div>
       <div class="appt-list" id="up-list"></div>
     </div>
     <div class="sched-sec">
-      <div class="sec-title">Past Sessions</div>
+      <div class="sec-title">
+        <svg style="width:14px;height:14px;fill:var(--muted);vertical-align:middle;margin-right:6px" viewBox="0 0 24 24"><path d="M13 3a9 9 0 00-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0013 21a9 9 0 000-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>History
+      </div>
       <div class="appt-list" id="past-list"></div>
     </div>
   </div>
@@ -601,7 +624,9 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
     </div>
     <div class="mbtns">
       <button class="btn-cancel" onclick="closeMeModal()">Cancel</button>
-      <button class="btn-sub" style="margin-top:0" onclick="confirmMe()">Continue</button>
+      <button class="btn-sub" style="margin-top:0" onclick="confirmMe()">
+        <svg style="width:13px;height:13px;fill:white;vertical-align:middle;margin-right:4px" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Continue
+      </button>
     </div>
   </div>
 </div>
@@ -630,27 +655,15 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
       </div>
       <div class="fg"><label>Area * (multi-select)</label>
         <div class="cbg" id="ev-area">
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="PIK"> PIK</label>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Pluit"> Pluit</label>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Puri"> Puri</label>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Central Park"> Central Park</label>
+          <label class="cbl" onclick="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"><input type="checkbox" value="PIK"> PIK</label>
+          <label class="cbl" onclick="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"><input type="checkbox" value="Pluit"> Pluit</label>
+          <label class="cbl" onclick="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"><input type="checkbox" value="Puri"> Puri</label>
+          <label class="cbl" onclick="toggleCB(this);updateVenueOptions('ev-area','ev-venue','ev-venue-section',null)"><input type="checkbox" value="Central Park"> Central Park</label>
         </div>
       </div>
-      <div class="fg"><label>Preferred Venues * (multi-select)</label>
-        <div class="cbg" id="ev-venue">
-          <div style="width:100%;font-size:0.7rem;color:var(--muted);margin-bottom:4px;font-weight:600">PIK</div>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Urban Racquet Club"> Urban Racquet Club</label>
-          <div style="width:100%;font-size:0.7rem;color:var(--muted);margin:6px 0 4px;font-weight:600">Pluit</div>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Olympus Prime Sports Center"> Olympus Prime</label>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Homeground Signature Pluit"> Homeground Pluit</label>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Batavia Sports Club"> Batavia Sports</label>
-          <div style="width:100%;font-size:0.7rem;color:var(--muted);margin:6px 0 4px;font-weight:600">Puri</div>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="House of Tennis Kedoya"> House of Tennis</label>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Neo Tennis Arena"> Neo Tennis Arena</label>
-          <div style="width:100%;font-size:0.7rem;color:var(--muted);margin:6px 0 4px;font-weight:600">Central Park</div>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="The ACE Court Slipi"> The ACE Court</label>
-          <label class="cbl" onclick="toggleCB(this)"><input type="checkbox" value="Vlocity Arena"> Vlocity Arena</label>
-        </div>
+      <div class="fg" id="ev-venue-section" style="display:none">
+        <label>Preferred Venues * (multi-select)</label>
+        <div class="cbg" id="ev-venue"></div>
       </div>
       <div class="fg"><label>Play Style *</label>
         <div class="cbg" id="ev-types">
@@ -674,7 +687,9 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 
     <div class="mbtns" id="edit-save-btns">
       <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
-      <button class="btn-sub" style="margin-top:0" onclick="saveEdit()">Save Changes</button>
+      <button class="btn-sub" style="margin-top:0" onclick="saveEdit()">
+        <svg style="width:13px;height:13px;fill:white;vertical-align:middle;margin-right:4px" viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>Save
+      </button>
     </div>
   </div>
 </div>
@@ -705,7 +720,9 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
     </div>
     <div class="mbtns">
       <button class="btn-cancel" onclick="closeModal()">Cancel</button>
-      <button class="btn-sub" style="margin-top:0" onclick="confirmBook()">Confirm &amp; Notify via WA 💬</button>
+      <button class="btn-sub" style="margin-top:0" onclick="confirmBook()">
+        <svg style="width:13px;height:13px;fill:white;vertical-align:middle;margin-right:4px" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/></svg>Confirm & WA
+      </button>
     </div>
   </div>
 </div>
@@ -788,21 +805,21 @@ function renderCards(){
   const tf = document.getElementById('ft').value;
   const vf = document.getElementById('fv').value;
   let list = partners.filter(p=>{
-    if(p.area === 'All') {
-      // 'All' area partners: show when no area filter, or always show once
-      if(lf && p.level !== lf) return false;
-      if(tf && !p.types.includes(tf)) return false;
-      return true;
+    if(curArea) {
+      const areaList = p.area === 'All' ? [] : (p.area||'').split(', ');
+      if(p.area !== 'All' && !areaList.includes(curArea)) return false;
     }
-    if(curArea && p.area !== curArea) return false;
     if(lf && p.level !== lf) return false;
     if(tf && !p.types.includes(tf)) return false;
-    if(vf && p.venue !== vf) return false;
+    if(vf && !(p.venue||'').split(', ').includes(vf)) return false;
     return true;
   });
   const el = document.getElementById('cards');
   if(!list.length){
-    el.innerHTML=`<div class="empty" style="grid-column:1/-1"><div class="empty-i">🎾</div><div class="empty-t">No partners found — try adjusting the filters.</div></div>`;
+    el.innerHTML=`<div class="empty" style="grid-column:1/-1">
+    <svg style="width:48px;height:48px;fill:var(--green-md);margin-bottom:12px" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+    <div class="empty-t">No partners found — try adjusting the filters or be the first to register!</div>
+  </div>`;
     return;
   }
   el.innerHTML = list.map(p=>`
@@ -815,14 +832,18 @@ function renderCards(){
       <div class="badges">
         <span class="badge b-lv">NTRP ${p.level}</span>
         ${p.types.map(t=>`<span class="badge b-tp">${t}</span>`).join('')}
-        <span class="badge b-ar">📍 ${p.area === 'All' ? 'All Areas' : p.area}</span>
+        ${(p.area === 'All' ? ['All Areas'] : (p.area||'').split(', ')).map(a=>`<span class="badge b-ar">📍 ${a}</span>`).join('')}
       </div>
-      <div class="venue-line">🏟 ${p.venue}</div>
+      <div class="venue-line">🏟 ${(p.venue||'').split(', ').join(' · ')}</div>
       <div class="card-note">${p.note}</div>
       <div class="card-btns">
-        <button class="btn-book" onclick="openBook('${p.name}','${p.wa}','${p.venue}')">📅 Book</button>
-        <button class="btn-wac" onclick="openWA('${p.wa}','${p.name}')">${WSVG} WA</button>
-        <button class="btn-book" style="flex:0;padding:9px 10px;background:var(--green-lt);color:var(--green);border:1.5px solid var(--green-md)" onclick="openEditModal(${p.id})">✏️</button>
+        <button class="btn-book" onclick="openBook('${p.name}','${p.wa}','${p.venue}')">
+          <svg style="width:13px;height:13px;fill:currentColor;vertical-align:middle;margin-right:4px" viewBox="0 0 24 24"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11zM7 10h5v5H7z"/></svg>Book
+        </button>
+        <button class="btn-wac" onclick="openWA('${p.wa}','${p.name}')">${WSVG} Chat</button>
+        <button class="btn-edit" onclick="openEditModal(${p.id})" title="Edit profile">
+          <svg style="width:13px;height:13px;fill:currentColor" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04a1 1 0 000-1.41l-2.34-2.34a1 1 0 00-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+        </button>
       </div>
     </div>`).join('');
 }
@@ -916,7 +937,9 @@ async function submitForm(){
   document.getElementById('fn').value='';
   document.getElementById('fw').value='';
   document.getElementById('fnt').value='';
-  document.querySelectorAll('#cgar .cbl, #cgvn .cbl').forEach(l=>{ l.classList.remove('on'); l.querySelector('input').checked=false; });
+  document.querySelectorAll('#cgar .cbl').forEach(l=>{ l.classList.remove('on'); l.querySelector('input').checked=false; });
+  document.getElementById('cgvn').innerHTML='';
+  document.getElementById('venue-section').style.display='none';
   await loadPartners();
   setTimeout(()=>switchTab('browse'),1200);
 }
@@ -970,12 +993,7 @@ function prefillAndOpenEdit() {
     l.querySelector('input').checked = on;
   });
   const venues = (p.venue || '').split(', ');
-  document.querySelectorAll('#ev-venue .cbl').forEach(l => {
-    const v = l.querySelector('input').value;
-    const on = venues.includes(v);
-    l.classList.toggle('on', on);
-    l.querySelector('input').checked = on;
-  });
+  updateVenueOptions('ev-area', 'ev-venue', 'ev-venue-section', venues);
   const types = p.types || [];
   document.querySelectorAll('#ev-types .cbl').forEach(l => {
     const v = l.querySelector('input').value;
@@ -1018,12 +1036,7 @@ function prefillAndOpenEdit() {
     l.querySelector('input').checked = on;
   });
   const venues = (p.venue || '').split(', ');
-  document.querySelectorAll('#ev-venue .cbl').forEach(l => {
-    const v = l.querySelector('input').value;
-    const on = venues.includes(v);
-    l.classList.toggle('on', on);
-    l.querySelector('input').checked = on;
-  });
+  updateVenueOptions('ev-area', 'ev-venue', 'ev-venue-section', venues);
   const types = p.types || [];
   document.querySelectorAll('#ev-types .cbl').forEach(l => {
     const v = l.querySelector('input').value;
@@ -1066,6 +1079,37 @@ async function saveEdit() {
   closeEditModal();
   editId = null;
   await loadPartners();
+}
+
+const VENUE_MAP = {
+  'PIK': ['Urban Racquet Club'],
+  'Pluit': ['Olympus Prime Sports Center', 'Homeground Signature Pluit', 'Batavia Sports Club'],
+  'Puri': ['House of Tennis Kedoya', 'Neo Tennis Arena'],
+  'Central Park': ['The ACE Court Slipi', 'Vlocity Arena'],
+};
+
+function updateVenueOptions(areaGroupId, venueGroupId, venueSectionId, preselected) {
+  const selectedAreas = [...document.querySelectorAll('#' + areaGroupId + ' .on input')].map(i => i.value);
+  const venueEl = document.getElementById(venueGroupId);
+  const sectionEl = document.getElementById(venueSectionId);
+  if (!selectedAreas.length) {
+    venueEl.innerHTML = '';
+    sectionEl.style.display = 'none';
+    return;
+  }
+  sectionEl.style.display = 'block';
+  let html = '';
+  selectedAreas.forEach(area => {
+    const venues = VENUE_MAP[area] || [];
+    if (venues.length) {
+      html += `<div style="width:100%;font-size:0.7rem;color:var(--muted);margin:${html?'6px':'0'} 0 4px;font-weight:600">${area}</div>`;
+      venues.forEach(v => {
+        const isOn = preselected && preselected.includes(v);
+        html += `<label class="cbl${isOn?' on':''}" onclick="toggleCB(this)"><input type="checkbox" value="${v}"${isOn?' checked':''}> ${v}</label>`;
+      });
+    }
+  });
+  venueEl.innerHTML = html;
 }
 
 function showToast(msg){
