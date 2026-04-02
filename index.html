@@ -832,9 +832,9 @@ function renderCards(){
       <div class="badges">
         <span class="badge b-lv">NTRP ${p.level}</span>
         ${p.types.map(t=>`<span class="badge b-tp">${t}</span>`).join('')}
-        ${(p.area === 'All' ? ['All Areas'] : (p.area||'').split(', ')).map(a=>`<span class="badge b-ar">📍 ${a}</span>`).join('')}
+        ${(p.area === 'All' ? ['All Areas'] : (p.area||''}).split(', ')).map(a=>`<span class="badge b-ar">${a}</span>`).join('')}</span>`).join('')}
       </div>
-      <div class="venue-line">🏟 ${(p.venue||'').split(', ').join(' · ')}</div>
+      <div class="venue-line">${(p.venue||'').split(', ').join(' · ')}</div>
       <div class="card-note">${p.note}</div>
       <div class="card-btns">
         <button class="btn-book" onclick="openBook('${p.name}','${p.wa}','${p.venue}')">
@@ -919,7 +919,7 @@ async function submitForm(){
   if(!types.length){showToast('Please select at least one play style');return;}
   const areas=[...document.querySelectorAll('#cgar .on input')].map(i=>i.value);
   const venues=[...document.querySelectorAll('#cgvn .on input')].map(i=>i.value);
-  if(!areas.length){showToast('Please select at least one area 📍');return;}
+  if(!areas.length){showToast('Please select at least one area');return;}
   if(!venues.length){showToast('Please select at least one venue');return;}
   const record = {
     name,
