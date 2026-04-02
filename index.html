@@ -175,6 +175,7 @@ main { max-width: 980px; margin: 0 auto; padding: 26px 32px 80px; }
 .b-lv { background: var(--green-lt); color: var(--green); border: 1px solid var(--green-md); }
 .b-tp { background: var(--clay-lt); color: var(--clay); border: 1px solid #f0c4b0; }
 .b-ar { background: #f0f5ff; color: #4a6da8; border: 1px solid #c8d8f4; }
+.b-vn { background: #f5f0ff; color: #7b5ea7; border: 1px solid #d8c8f4; }
 .venue-line { font-size: 0.72rem; color: var(--muted); margin-bottom: 10px; }
 .card-note { font-size: 0.79rem; color: var(--mid); line-height: 1.6; border-top: 1px solid var(--border); padding-top: 11px; }
 .card-btns { display: flex; gap: 8px; margin-top: 13px; }
@@ -768,20 +769,14 @@ let selectedVenues = [];
 function toggleArea(el, area) {
   if (!area) {
     selectedAreas = [];
-    document.querySelectorAll('#area-filter .apill').forEach(p => p.classList.remove('on'));
+    document.querySelectorAll('#area-filter .apill').forEach(function(p) { p.classList.remove('on'); });
     el.classList.add('on');
   } else {
     document.querySelector('#area-filter .apill').classList.remove('on');
-    if (selectedAreas.includes(area)) {
-      selectedAreas = selectedAreas.filter(a => a !== area);
-      el.classList.remove('on');
-    } else {
-      selectedAreas.push(area);
-      el.classList.add('on');
-    }
-    if (!selectedAreas.length) {
-      document.querySelector('#area-filter .apill').classList.add('on');
-    }
+    var idx = selectedAreas.indexOf(area);
+    if (idx > -1) { selectedAreas.splice(idx, 1); el.classList.remove('on'); }
+    else { selectedAreas.push(area); el.classList.add('on'); }
+    if (!selectedAreas.length) document.querySelector('#area-filter .apill').classList.add('on');
   }
   updateBrowseVenues();
   renderCards();
@@ -790,21 +785,16 @@ function toggleArea(el, area) {
 function toggleVenueFilter(el, venue) {
   if (!venue) {
     selectedVenues = [];
-    document.querySelectorAll('#venue-filter-row .apill').forEach(p => p.classList.remove('on'));
+    document.querySelectorAll('#venue-filter-row .apill').forEach(function(p) { p.classList.remove('on'); });
     el.classList.add('on');
   } else {
-    var allBtn = document.querySelector('#venue-filter-row .apill[onclick*="toggleVenueFilter(this,\'\')"]');
+    // deselect "All Venues"
+    var allBtn = document.querySelector('#venue-filter-row .apill');
     if (allBtn) allBtn.classList.remove('on');
-    if (selectedVenues.includes(venue)) {
-      selectedVenues = selectedVenues.filter(v => v !== venue);
-      el.classList.remove('on');
-    } else {
-      selectedVenues.push(venue);
-      el.classList.add('on');
-    }
-    if (!selectedVenues.length) {
-      if (allBtn) allBtn.classList.add('on');
-    }
+    var idx = selectedVenues.indexOf(venue);
+    if (idx > -1) { selectedVenues.splice(idx, 1); el.classList.remove('on'); }
+    else { selectedVenues.push(venue); el.classList.add('on'); }
+    if (!selectedVenues.length) { if (allBtn) allBtn.classList.add('on'); }
   }
   renderCards();
 }
@@ -812,20 +802,17 @@ function toggleVenueFilter(el, venue) {
 function updateBrowseVenues() {
   var row = document.getElementById('venue-filter-row');
   selectedVenues = [];
-  var html = '<span class="apill on" onclick="toggleVenueFilter(this,\'\')">All Venues</span>';
   var areas = selectedAreas.length ? selectedAreas : ['PIK','Pluit','Puri','Central Park'];
+  var html = '<span class="apill on" onclick="toggleVenueFilter(this,\'\')">All Venues</span>';
   areas.forEach(function(area) {
-    var venues = VENUE_MAP[area] || [];
-    venues.forEach(function(v) {
-      html += '<span class="apill" onclick="toggleVenueFilter(this,&quot;' + v + '&quot;)">' + v + '</span>';
+    (VENUE_MAP[area] || []).forEach(function(v) {
+      html += '<span class="apill" onclick="toggleVenueFilter(this,\'' + v.replace(/'/g, "\\\'") + '\')">' + v + '</span>';
     });
   });
   row.innerHTML = html;
 }
 
-function setArea(el,a){
-  toggleArea(el, a);
-}
+function setArea(el,a) { toggleArea(el, a); }
 
 function toggleCB(inp){
   // Called from input's onchange - inp IS the input element
@@ -857,13 +844,13 @@ function renderCards(){
   let list = partners.filter(p=>{
     if(selectedAreas.length) {
       const areaList = p.area === 'All' ? [] : (p.area||'').split(', ');
-      if(p.area !== 'All' && !selectedAreas.some(a => areaList.includes(a))) return false;
+      if(p.area !== 'All' && !selectedAreas.some(function(a){ return areaList.includes(a); })) return false;
     }
     if(lf && p.level !== lf) return false;
     if(tf && !p.types.includes(tf)) return false;
     if(selectedVenues.length) {
       const venueList = (p.venue||'').split(', ');
-      if(!selectedVenues.some(v => venueList.includes(v))) return false;
+      if(!selectedVenues.some(function(v){ return venueList.includes(v); })) return false;
     }
     return true;
   });
@@ -885,9 +872,9 @@ function renderCards(){
       <div class="badges">
         <span class="badge b-lv">NTRP ${p.level}</span>
         ${p.types.map(t=>`<span class="badge b-tp">${t}</span>`).join('')}
-        ${(p.area === 'All' ? ['All Areas'] : (p.area||'').split(', ')).map(a=>`<span class="badge b-ar">${a}</span>`).join('')}
+        ${(p.area === 'All' ? ['All Areas'] : (p.area||'').split(', ').filter(Boolean)).map(a=>`<span class="badge b-ar">${a}</span>`).join('')}
+        ${(p.venue||'').split(', ').filter(Boolean).map(v=>`<span class="badge b-vn">📍${v}</span>`).join('')}
       </div>
-      <div class="venue-line">${(p.venue||'').split(', ').join(' · ')}</div>
       <div class="card-note">${p.note}</div>
       <div class="card-btns">
         <button class="btn-book" onclick="openBook('${p.name}','${p.wa}','${p.venue}')">
