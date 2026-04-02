@@ -959,7 +959,7 @@ function confirmMe() {
   if (input.length !== 4) { showToast('Please enter 4 digits'); return; }
   // If coming from edit button, verify against that specific profile
   if (editId) {
-    const p = partners.find(x => x.id === editId);
+    const p = partners.find(x => x.id == editId);
     if (!p || p.wa.slice(-4) !== input) { showToast('Last 4 digits do not match ❌'); return; }
     closeMeModal();
     prefillAndOpenEdit();
@@ -979,35 +979,45 @@ function openEditModal(id) {
 }
 
 function prefillAndOpenEdit() {
-  const p = partners.find(x => x.id === editId);
-  if (!p) return;
+  const p = partners.find(x => x.id == editId);
+  if (!p) { showToast('Profile not found'); return; }
+
   document.getElementById('ev-name').value = p.name;
   document.getElementById('ev-gender').value = p.gender;
   document.getElementById('ev-level').value = p.level;
-  document.getElementById('ev-note').value = p.note === '—' ? '' : p.note;
-  const areas = (p.area || '').split(', ');
+  document.getElementById('ev-note').value = p.note === '—' ? '' : (p.note || '');
+
+  // Pre-fill areas
+  const areas = (p.area || '').split(', ').map(a => a.trim()).filter(Boolean);
   document.querySelectorAll('#ev-area .cbl').forEach(l => {
     const v = l.querySelector('input').value;
     const on = areas.includes(v);
     l.classList.toggle('on', on);
     l.querySelector('input').checked = on;
   });
-  const venues = (p.venue || '').split(', ');
+
+  // Pre-fill venues — must run AFTER areas are set
+  const venues = (p.venue || '').split(', ').map(v => v.trim()).filter(Boolean);
   updateVenueOptions('ev-area', 'ev-venue', 'ev-venue-section', venues);
-  const types = p.types || [];
+
+  // Pre-fill types
+  const types = Array.isArray(p.types) ? p.types : [];
   document.querySelectorAll('#ev-types .cbl').forEach(l => {
     const v = l.querySelector('input').value;
     const on = types.includes(v);
     l.classList.toggle('on', on);
     l.querySelector('input').checked = on;
   });
-  const times = p.times || [];
+
+  // Pre-fill times
+  const times = Array.isArray(p.times) ? p.times : [];
   document.querySelectorAll('#ev-times .cbl').forEach(l => {
     const v = l.querySelector('input').value;
     const on = times.includes(v);
     l.classList.toggle('on', on);
     l.querySelector('input').checked = on;
   });
+
   document.getElementById('modal-edit').classList.add('open');
 }
 
@@ -1022,7 +1032,7 @@ function openEditModal(id) {
 }
 
 function prefillAndOpenEdit() {
-  const p = partners.find(x => x.id === editId);
+  const p = partners.find(x => x.id == editId);
   if (!p) return;
   document.getElementById('ev-name').value = p.name;
   document.getElementById('ev-gender').value = p.gender;
@@ -1057,10 +1067,10 @@ function prefillAndOpenEdit() {
 async function saveEdit() {
   const name = document.getElementById('ev-name').value.trim();
   if (!name) { showToast('Please enter your nickname'); return; }
-  const areas = [...document.querySelectorAll('#ev-area .on input')].map(i=>i.value);
-  const venues = [...document.querySelectorAll('#ev-venue .on input')].map(i=>i.value);
-  const types = [...document.querySelectorAll('#ev-types .on input')].map(i=>i.value);
-  const times = [...document.querySelectorAll('#ev-times .on input')].map(i=>i.value);
+  const areas = [...document.querySelectorAll('#ev-area input:checked')].map(i=>i.value);
+  const venues = [...document.querySelectorAll('#ev-venue input:checked')].map(i=>i.value);
+  const types = [...document.querySelectorAll('#ev-types input:checked')].map(i=>i.value);
+  const times = [...document.querySelectorAll('#ev-times input:checked')].map(i=>i.value);
   if (!areas.length) { showToast('Please select at least one area'); return; }
   if (!venues.length) { showToast('Please select at least one venue'); return; }
   if (!types.length) { showToast('Please select a play style'); return; }
@@ -1089,7 +1099,7 @@ const VENUE_MAP = {
 };
 
 function updateVenueOptions(areaGroupId, venueGroupId, venueSectionId, preselected) {
-  const selectedAreas = [...document.querySelectorAll('#' + areaGroupId + ' .on input')].map(i => i.value);
+  const selectedAreas = [...document.querySelectorAll('#' + areaGroupId + ' input:checked')].map(i => i.value);
   const venueEl = document.getElementById(venueGroupId);
   const sectionEl = document.getElementById(venueSectionId);
   if (!selectedAreas.length) {
